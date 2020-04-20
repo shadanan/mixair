@@ -2,7 +2,7 @@ import { Grid, Input, makeStyles } from "@material-ui/core";
 import Slider from "@material-ui/core/Slider";
 import Tooltip from "@material-ui/core/Tooltip";
 import React, { ReactElement, useEffect, useState } from "react";
-import { XAirFeed, OscMessage } from "./XAir";
+import { XAir } from "./XAir";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,49 +62,38 @@ function ValueLabelComponent({ open, value, children }: ValueLabelProps) {
 }
 
 type FaderProps = {
-  feed: XAirFeed;
+  xair: XAir;
 };
 
-function Fader({ feed }: FaderProps) {
+function Fader({ xair }: FaderProps) {
   const classes = useStyles();
   const [level, setLevel] = useState(0);
 
   async function updateLevel(level: number) {
-    const resp = await fetch(
-      "http://localhost:8000/xair/XR18-5E-91-5A/osc/lr/mix/fader",
-      {
-        method: "PATCH",
-        body: JSON.stringify({
-          address: "/lr/mix/fader",
-          arguments: [level],
-        } as OscMessage),
-      }
-    );
-
-    const message = (await resp.json()) as OscMessage;
+    const message = await xair.patch({
+      address: "/lr/mix/fader",
+      arguments: [level],
+    });
     setLevel(message.arguments[0]);
   }
 
   useEffect(() => {
     async function fetchData() {
       console.log("Fetching data...");
-      const resp = await fetch(
-        "http://localhost:8000/xair/XR18-5E-91-5A/osc/lr/mix/fader"
-      );
-      const message = (await resp.json()) as OscMessage;
+      const message = await xair.get("/lr/mix/fader");
       setLevel(message.arguments[0]);
     }
     fetchData();
-  }, []);
+  }, [xair]);
 
   useEffect(() => {
-    const name = feed.subscribe((message) => {
+    const name = xair.subscribe((message) => {
       setLevel(message.arguments[0]);
     }, "/lr/mix/fader");
     return () => {
-      feed.unsubscribe(name);
+      xair.unsubscribe(name);
     };
-  }, [feed]);
+  }, [xair]);
 
   return (
     <Grid container direction="column" alignItems="center" spacing={2}>

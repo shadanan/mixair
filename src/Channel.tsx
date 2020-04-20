@@ -3,9 +3,9 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import React from "react";
 import Fader from "./Fader";
-import { XAirFeed } from "./XAir";
+import { XAir } from "./XAir";
 
-const feed = new XAirFeed("ws://localhost:8000/xair/XR18-5E-91-5A/feed");
+const xair = new XAir("ws://localhost:8000/xair/XR18-5E-91-5A");
 
 function Channel() {
   return (
@@ -17,7 +17,7 @@ function Channel() {
       </Grid>
       <Grid item>
         <Paper>
-          <Fader feed={feed} />
+          <Fader xair={xair} />
         </Paper>
       </Grid>
     </Grid>

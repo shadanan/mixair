@@ -3,7 +3,8 @@ export type OscMessage = {
   arguments: [number];
 };
 
-export class XAirFeed {
+export class XAir {
+  baseUrl: string;
   client: WebSocket;
   subscriptions: {
     [name: string]: {
@@ -12,8 +13,9 @@ export class XAirFeed {
     };
   } = {};
 
-  constructor(webSocketAddress: string) {
-    this.client = new WebSocket(webSocketAddress);
+  constructor(baseUrl: string) {
+    this.baseUrl = baseUrl;
+    this.client = new WebSocket(`${this.baseUrl}/feed`);
     this.client.onmessage = (resp) => {
       const message = JSON.parse(resp.data) as OscMessage;
       for (var key in this.subscriptions) {
@@ -23,6 +25,20 @@ export class XAirFeed {
         }
       }
     };
+  }
+
+  async get(address: string): Promise<OscMessage> {
+    const resp = await fetch(`${this.baseUrl}/osc/${address}`);
+    return await resp.json();
+  }
+
+  async patch(message: OscMessage): Promise<OscMessage> {
+    const resp = await fetch(`${this.baseUrl}/osc/${message.address}`, {
+      method: "PATCH",
+      body: JSON.stringify(message),
+    });
+
+    return await resp.json();
   }
 
   subscribe(callback: (message: OscMessage) => void, address?: string) {
