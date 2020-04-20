@@ -3,8 +3,9 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import React from "react";
 import Fader from "./Fader";
+import { XAirFeed } from "./XAir";
 
-const client = new WebSocket("ws://localhost:8000/xair/XR18-5E-91-5A/feed");
+const feed = new XAirFeed("ws://localhost:8000/xair/XR18-5E-91-5A/feed");
 
 function Channel() {
   return (
@@ -16,7 +17,7 @@ function Channel() {
       </Grid>
       <Grid item>
         <Paper>
-          <Fader ws={client} />
+          <Fader feed={feed} />
         </Paper>
       </Grid>
     </Grid>

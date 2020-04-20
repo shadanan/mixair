@@ -1,7 +1,8 @@
-import { makeStyles, Grid, Input } from "@material-ui/core";
+import { Grid, Input, makeStyles } from "@material-ui/core";
 import Slider from "@material-ui/core/Slider";
 import Tooltip from "@material-ui/core/Tooltip";
 import React, { ReactElement, useEffect, useState } from "react";
+import { XAirFeed, OscMessage } from "./XAir";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,11 +21,6 @@ type ValueLabelProps = {
   open: boolean;
   value: number;
   children: ReactElement;
-};
-
-type OscMessage = {
-  address: string;
-  arguments: [number];
 };
 
 const marks = [Number.NEGATIVE_INFINITY, -50, -30, -20, -10, -5, 0, 5, 10].map(
@@ -66,10 +62,10 @@ function ValueLabelComponent({ open, value, children }: ValueLabelProps) {
 }
 
 type FaderProps = {
-  ws: WebSocket;
+  feed: XAirFeed;
 };
 
-function Fader({ ws }: FaderProps) {
+function Fader({ feed }: FaderProps) {
   const classes = useStyles();
   const [level, setLevel] = useState(0);
 
@@ -91,6 +87,7 @@ function Fader({ ws }: FaderProps) {
 
   useEffect(() => {
     async function fetchData() {
+      console.log("Fetching data...");
       const resp = await fetch(
         "http://localhost:8000/xair/XR18-5E-91-5A/osc/lr/mix/fader"
       );
@@ -98,14 +95,16 @@ function Fader({ ws }: FaderProps) {
       setLevel(message.arguments[0]);
     }
     fetchData();
+  }, []);
 
-    ws.onmessage = (resp) => {
-      const message = JSON.parse(resp.data) as OscMessage;
-      if (message.address === "/lr/mix/fader") {
-        setLevel(message.arguments[0]);
-      }
+  useEffect(() => {
+    const name = feed.subscribe((message) => {
+      setLevel(message.arguments[0]);
+    }, "/lr/mix/fader");
+    return () => {
+      feed.unsubscribe(name);
     };
-  });
+  }, [feed]);
 
   return (
     <Grid container direction="column" alignItems="center" spacing={2}>
