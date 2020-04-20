@@ -5,7 +5,7 @@ import React from "react";
 import Fader from "./Fader";
 import { XAir } from "./XAir";
 
-const xair = new XAir("ws://localhost:8000/xair/XR18-5E-91-5A");
+const xair = new XAir("localhost:8000/xair/XR18-5E-91-5A");
 
 function Channel() {
   return (

@@ -15,7 +15,7 @@ export class XAir {
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
-    this.client = new WebSocket(`${this.baseUrl}/feed`);
+    this.client = new WebSocket(`ws://${this.baseUrl}/feed`);
     this.client.onmessage = (resp) => {
       const message = JSON.parse(resp.data) as OscMessage;
       for (var key in this.subscriptions) {
@@ -28,12 +28,13 @@ export class XAir {
   }
 
   async get(address: string): Promise<OscMessage> {
-    const resp = await fetch(`${this.baseUrl}/osc/${address}`);
+    console.log(`http://${this.baseUrl}/osc${address}`);
+    const resp = await fetch(`http://${this.baseUrl}/osc${address}`);
     return await resp.json();
   }
 
   async patch(message: OscMessage): Promise<OscMessage> {
-    const resp = await fetch(`${this.baseUrl}/osc/${message.address}`, {
+    const resp = await fetch(`http://${this.baseUrl}/osc${message.address}`, {
       method: "PATCH",
       body: JSON.stringify(message),
     });
