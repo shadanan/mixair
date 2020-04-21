@@ -11,14 +11,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
-/* TODO: Find a way to override vertical slider markers. */
-.MuiSlider-marked.MuiSlider-vertical {
-  margin-right: auto !important;
-  margin-left: 22px;
-}
-
-.MuiSlider-vertical .MuiSlider-markLabel {
-  left: auto !important;
-  right: 22px;
-}

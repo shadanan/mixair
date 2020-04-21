@@ -1,13 +1,17 @@
-import { Grid, Input, makeStyles } from "@material-ui/core";
+import { Grid, Input, makeStyles, Paper } from "@material-ui/core";
 import Slider from "@material-ui/core/Slider";
 import Tooltip from "@material-ui/core/Tooltip";
 import React, { ReactElement, useEffect, useState } from "react";
 import { XAir } from "./XAir";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    height: 250,
-    padding: 18,
+  flex: {
+    flexGrow: 1,
+  },
+  well: {
+    backgroundColor: theme.palette.background.default,
+    paddingLeft: 14,
+    paddingRight: 14,
   },
   slider: {
     color: theme.palette.primary.light,
@@ -63,15 +67,16 @@ function ValueLabelComponent({ open, value, children }: ValueLabelProps) {
 
 type FaderProps = {
   xair: XAir;
+  address: string;
 };
 
-function Fader({ xair }: FaderProps) {
+export default function Fader({ xair, address }: FaderProps) {
   const classes = useStyles();
   const [level, setLevel] = useState(0);
 
   async function updateLevel(level: number) {
     const message = await xair.patch({
-      address: "/lr/mix/fader",
+      address: address,
       arguments: [level],
     });
     setLevel(message.arguments[0]);
@@ -80,38 +85,27 @@ function Fader({ xair }: FaderProps) {
   useEffect(() => {
     async function fetchData() {
       console.log("Fetching data...");
-      const message = await xair.get("/lr/mix/fader");
+      const message = await xair.get(address);
       setLevel(message.arguments[0]);
     }
     fetchData();
-  }, [xair]);
+  }, [xair, address]);
 
   useEffect(() => {
     const name = xair.subscribe((message) => {
       setLevel(message.arguments[0]);
-    }, "/lr/mix/fader");
+    }, address);
     return () => {
       xair.unsubscribe(name);
     };
-  }, [xair]);
+  }, [xair, address]);
 
   return (
-    <Grid container direction="column" alignItems="center" spacing={2}>
-      <Grid item>
-        <Input
-          className={classes.input}
-          value={dbToString(levelToDb(level), 1)}
-          onChange={(event) => {
-            updateLevel(dbToLevel(Number(event.target.value)));
-          }}
-          margin="dense"
-        ></Input>
-      </Grid>
-      <Grid item>
-        <div className={classes.root}>
+    <Grid container alignItems="center" spacing={1}>
+      <Grid item className={classes.flex}>
+        <Paper className={classes.well}>
           <Slider
             className={classes.slider}
-            orientation="vertical"
             getAriaValueText={(level) => dbToString(levelToDb(level), 1)}
             valueLabelFormat={(level) => dbToString(levelToDb(level), 4)}
             ValueLabelComponent={ValueLabelComponent}
@@ -127,10 +121,18 @@ function Fader({ xair }: FaderProps) {
             step={0.001}
             max={1}
           />
-        </div>
+        </Paper>
+      </Grid>
+      <Grid item>
+        <Input
+          className={classes.input}
+          value={dbToString(levelToDb(level), 1)}
+          onChange={(event) => {
+            updateLevel(dbToLevel(Number(event.target.value)));
+          }}
+          margin="dense"
+        ></Input>
       </Grid>
     </Grid>
   );
 }
-
-export default Fader;
