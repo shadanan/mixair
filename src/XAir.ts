@@ -28,7 +28,6 @@ export class XAir {
   }
 
   async get(address: string): Promise<OscMessage> {
-    console.log(`http://${this.baseUrl}/osc${address}`);
     const resp = await fetch(`http://${this.baseUrl}/osc${address}`);
     return await resp.json();
   }

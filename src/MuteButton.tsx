@@ -33,7 +33,6 @@ export default function MuteButton({ xair, address }: MuteButtonProps) {
 
   useEffect(() => {
     async function fetchData() {
-      console.log("Fetching data...");
       const message = await xair.get(address);
       setMuted(message.arguments[0] === 0);
     }
@@ -42,7 +41,6 @@ export default function MuteButton({ xair, address }: MuteButtonProps) {
 
   useEffect(() => {
     const name = xair.subscribe((message) => {
-      console.log("Message received: " + message);
       setMuted(message.arguments[0] === 0);
     }, address);
     return () => {

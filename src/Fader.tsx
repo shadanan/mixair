@@ -21,12 +21,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type ValueLabelProps = {
-  open: boolean;
-  value: number;
-  children: ReactElement;
-};
-
 const marks = [Number.NEGATIVE_INFINITY, -50, -30, -20, -10, -5, 0, 5, 10].map(
   (x) => ({
     value: dbToLevel(x),
@@ -51,15 +45,15 @@ function levelToDb(level: number): number {
     : (10 * Math.log10(level / 0.75)) / Math.log10(1 / 0.75);
 }
 
+type ValueLabelProps = {
+  open: boolean;
+  value: number;
+  children: ReactElement;
+};
+
 function ValueLabelComponent({ open, value, children }: ValueLabelProps) {
   return (
-    <Tooltip
-      open={open}
-      enterTouchDelay={0}
-      placement="left"
-      title={value}
-      arrow
-    >
+    <Tooltip open={open} enterTouchDelay={0} title={value} arrow>
       {children}
     </Tooltip>
   );
@@ -84,7 +78,6 @@ export default function Fader({ xair, address }: FaderProps) {
 
   useEffect(() => {
     async function fetchData() {
-      console.log("Fetching data...");
       const message = await xair.get(address);
       setLevel(message.arguments[0]);
     }
