@@ -1,6 +1,7 @@
+import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import React from "react";
 import Channel from "./Channel";
-import { createMuiTheme, ThemeProvider, CssBaseline } from "@material-ui/core";
 
 const theme = createMuiTheme({
   palette: {

@@ -1,4 +1,7 @@
-import { Grid, Input, makeStyles, Paper } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
+import Input from "@material-ui/core/Input";
+import Paper from "@material-ui/core/Paper";
 import Slider from "@material-ui/core/Slider";
 import Tooltip from "@material-ui/core/Tooltip";
 import React, { ReactElement, useEffect, useState } from "react";
