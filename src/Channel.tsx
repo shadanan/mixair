@@ -4,8 +4,10 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import React from "react";
 import Fader from "./Fader";
-import MuteButton from "./MuteButton";
 import { XAir } from "./XAir";
+import XAirToggleButton from "./XAirToggleButton";
+import yellow from "@material-ui/core/colors/yellow";
+import red from "@material-ui/core/colors/red";
 
 const xair = new XAir("localhost:8000/xair/XR18-5E-91-5A");
 
@@ -28,7 +30,23 @@ function Channel() {
           <Typography variant="caption">LR</Typography>
         </Grid>
         <Grid item>
-          <MuteButton xair={xair} address={"/lr/mix/on"}></MuteButton>
+          <XAirToggleButton
+            xair={xair}
+            address={"/lr/mix/on"}
+            color={red[500]}
+            invert={true}
+          >
+            M
+          </XAirToggleButton>
+        </Grid>
+        <Grid item>
+          <XAirToggleButton
+            xair={xair}
+            address={"/-stat/solosw/50"}
+            color={yellow[500]}
+          >
+            S
+          </XAirToggleButton>
         </Grid>
         <Grid item className={classes.flex}>
           <Fader xair={xair} address={"/lr/mix/fader"} />
