@@ -1,7 +1,11 @@
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import React from "react";
-import Channel from "./Channel";
+import Mixer from "./Mixer";
+import { XAir } from "./XAir";
+
+console.log(window.location.host);
+const xair = new XAir(`${window.location.host}/xair/XR18-5E-91-5A`);
 
 const theme = createMuiTheme({
   palette: {
@@ -13,7 +17,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline>
-        <Channel />
+        <Mixer xair={xair} />
       </CssBaseline>
     </ThemeProvider>
   );

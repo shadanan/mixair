@@ -9,30 +9,43 @@ import XAirToggleButton from "./XAirToggleButton";
 import yellow from "@material-ui/core/colors/yellow";
 import red from "@material-ui/core/colors/red";
 
-const xair = new XAir("localhost:8000/xair/XR18-5E-91-5A");
+type ChannelProps = {
+  xair: XAir;
+  channelName: string;
+  muteAddress: string;
+  soloAddress: string;
+  faderAddress: string;
+};
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(),
+    margin: theme.spacing(),
   },
   flex: {
     flexGrow: 1,
   },
 }));
 
-function Channel() {
+function Channel({
+  xair,
+  channelName,
+  muteAddress,
+  soloAddress,
+  faderAddress,
+}: ChannelProps) {
   const classes = useStyles();
 
   return (
     <Paper className={classes.paper}>
       <Grid container direction="row" alignItems="center" spacing={1}>
         <Grid item>
-          <Typography variant="caption">LR</Typography>
+          <Typography variant="caption">{channelName}</Typography>
         </Grid>
         <Grid item>
           <XAirToggleButton
             xair={xair}
-            address={"/lr/mix/on"}
+            address={muteAddress}
             color={red[500]}
             invert={true}
           >
@@ -42,14 +55,14 @@ function Channel() {
         <Grid item>
           <XAirToggleButton
             xair={xair}
-            address={"/-stat/solosw/50"}
+            address={soloAddress}
             color={yellow[500]}
           >
             S
           </XAirToggleButton>
         </Grid>
         <Grid item className={classes.flex}>
-          <Fader xair={xair} address={"/lr/mix/fader"} />
+          <Fader xair={xair} address={faderAddress} />
         </Grid>
       </Grid>
     </Paper>
