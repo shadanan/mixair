@@ -4,7 +4,6 @@ import React from "react";
 import Mixer from "./Mixer";
 import { XAir } from "./XAir";
 
-console.log(window.location.host);
 const xair = new XAir(`${window.location.host}/xair/XR18-5E-91-5A`);
 
 const theme = createMuiTheme({
