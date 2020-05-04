@@ -1,6 +1,6 @@
 export type OscMessage = {
   address: string;
-  arguments: [number];
+  arguments: [number | string];
 };
 
 export class XAir {

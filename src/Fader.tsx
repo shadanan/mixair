@@ -76,20 +76,20 @@ export default function Fader({ xair, address }: FaderProps) {
       address: address,
       arguments: [level],
     });
-    setLevel(message.arguments[0]);
+    setLevel(message.arguments[0] as number);
   }
 
   useEffect(() => {
     async function fetchData() {
       const message = await xair.get(address);
-      setLevel(message.arguments[0]);
+      setLevel(message.arguments[0] as number);
     }
     fetchData();
   }, [xair, address]);
 
   useEffect(() => {
     const name = xair.subscribe((message) => {
-      setLevel(message.arguments[0]);
+      setLevel(message.arguments[0] as number);
     }, address);
     return () => {
       xair.unsubscribe(name);

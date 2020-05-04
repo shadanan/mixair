@@ -1,9 +1,9 @@
 import { makeStyles } from "@material-ui/core";
+import { green } from "@material-ui/core/colors";
 import Typography from "@material-ui/core/Typography";
 import { ToggleButton as MuiToggleButton } from "@material-ui/lab";
 import React, { useEffect, useState } from "react";
 import { XAir } from "./XAir";
-import green from "@material-ui/core/colors/green";
 
 type XAirToggleButtonProps = {
   xair: XAir;
@@ -43,20 +43,20 @@ export default function ToggleButton({
       address: address,
       arguments: [toggled],
     });
-    setToggled(message.arguments[0]);
+    setToggled(message.arguments[0] as number);
   }
 
   useEffect(() => {
     async function fetchData() {
       const message = await xair.get(address);
-      setToggled(message.arguments[0]);
+      setToggled(message.arguments[0] as number);
     }
     fetchData();
   }, [xair, address]);
 
   useEffect(() => {
     const name = xair.subscribe((message) => {
-      setToggled(message.arguments[0]);
+      setToggled(message.arguments[0] as number);
     }, address);
     return () => {
       xair.unsubscribe(name);
