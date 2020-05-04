@@ -37,7 +37,6 @@ export class XAir {
       method: "PATCH",
       body: JSON.stringify(message),
     });
-
     return await resp.json();
   }
 

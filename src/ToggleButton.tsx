@@ -17,15 +17,16 @@ type StyleProps = {
   color: string;
 };
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: ({ color }: StyleProps) => ({
+    width: theme.spacing(5),
     "&$selected": {
       color: color,
       borderColor: color,
     },
   }),
   selected: () => ({}),
-});
+}));
 
 export default function ToggleButton({
   xair,
