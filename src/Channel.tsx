@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import React from "react";
 import Fader from "./Fader";
 import { XAir } from "./XAir";
-import XAirToggleButton from "./XAirToggleButton";
+import ToggleButton from "./ToggleButton";
 import yellow from "@material-ui/core/colors/yellow";
 import red from "@material-ui/core/colors/red";
 
@@ -43,23 +43,19 @@ function Channel({
           <Typography variant="caption">{channelName}</Typography>
         </Grid>
         <Grid item>
-          <XAirToggleButton
+          <ToggleButton
             xair={xair}
             address={muteAddress}
             color={red[500]}
             invert={true}
           >
             M
-          </XAirToggleButton>
+          </ToggleButton>
         </Grid>
         <Grid item>
-          <XAirToggleButton
-            xair={xair}
-            address={soloAddress}
-            color={yellow[500]}
-          >
+          <ToggleButton xair={xair} address={soloAddress} color={yellow[500]}>
             S
-          </XAirToggleButton>
+          </ToggleButton>
         </Grid>
         <Grid item className={classes.flex}>
           <Fader xair={xair} address={faderAddress} />

@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import ToggleButton from "@material-ui/lab/ToggleButton";
+import { ToggleButton as MuiToggleButton } from "@material-ui/lab";
 import React, { useEffect, useState } from "react";
 import { XAir } from "./XAir";
 import green from "@material-ui/core/colors/green";
@@ -27,7 +27,7 @@ const useStyles = makeStyles({
   selected: () => ({}),
 });
 
-export default function XAirToggleButton({
+export default function ToggleButton({
   xair,
   address,
   children,
@@ -64,7 +64,7 @@ export default function XAirToggleButton({
   }, [xair, address]);
 
   return (
-    <ToggleButton
+    <MuiToggleButton
       classes={{
         root: classes.root,
         selected: classes.selected,
@@ -77,6 +77,6 @@ export default function XAirToggleButton({
       }}
     >
       <Typography variant="button">{children}</Typography>
-    </ToggleButton>
+    </MuiToggleButton>
   );
 }
