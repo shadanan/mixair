@@ -18,7 +18,7 @@ export default function Mixer({ xair }: MixerProps) {
         soloAddress={"/-stat/solosw/50"}
         faderAddress={"/lr/mix/fader"}
       />
-      {/* <Channel
+      <Channel
         xair={xair}
         channelName={"Aux"}
         nameAddress={"/rtn/aux/config/name"}
@@ -39,7 +39,7 @@ export default function Mixer({ xair }: MixerProps) {
             faderAddress={`/ch/${channelLabel}/mix/fader`}
           />
         );
-      })} */}
+      })}
     </Box>
   );
 }
