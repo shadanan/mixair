@@ -1,4 +1,4 @@
-import Paper from "@material-ui/core/Paper";
+import Box from "@material-ui/core/Box";
 import React from "react";
 import Channel from "./Channel";
 import { XAir } from "./XAir";
@@ -9,7 +9,7 @@ type MixerProps = {
 
 export default function Mixer({ xair }: MixerProps) {
   return (
-    <Paper>
+    <Box>
       <Channel
         xair={xair}
         channelName={"LR"}
@@ -18,7 +18,7 @@ export default function Mixer({ xair }: MixerProps) {
         soloAddress={"/-stat/solosw/50"}
         faderAddress={"/lr/mix/fader"}
       />
-      <Channel
+      {/* <Channel
         xair={xair}
         channelName={"Aux"}
         nameAddress={"/rtn/aux/config/name"}
@@ -39,7 +39,7 @@ export default function Mixer({ xair }: MixerProps) {
             faderAddress={`/ch/${channelLabel}/mix/fader`}
           />
         );
-      })}
-    </Paper>
+      })} */}
+    </Box>
   );
 }

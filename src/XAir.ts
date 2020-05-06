@@ -18,18 +18,15 @@ export class XAir {
     this.client = new WebSocket(`ws://${this.baseUrl}/feed`);
     this.client.onmessage = (resp) => {
       const message = JSON.parse(resp.data) as OscMessage;
-      for (var key in this.subscriptions) {
-        const { callback, address } = this.subscriptions[key];
-        if (!address || message.address === address) {
-          callback(message);
-        }
-      }
+      this.publish(message);
     };
   }
 
   async get(address: string): Promise<OscMessage> {
     const resp = await fetch(`http://${this.baseUrl}/osc${address}`);
-    return await resp.json();
+    const message = (await resp.json()) as OscMessage;
+    this.publish(message);
+    return message;
   }
 
   async patch(message: OscMessage): Promise<OscMessage> {
@@ -37,7 +34,18 @@ export class XAir {
       method: "PATCH",
       body: JSON.stringify(message),
     });
-    return await resp.json();
+    const updated_message = await resp.json();
+    this.publish(updated_message);
+    return updated_message;
+  }
+
+  publish(message: OscMessage) {
+    for (var key in this.subscriptions) {
+      const { callback, address } = this.subscriptions[key];
+      if (!address || message.address === address) {
+        callback(message);
+      }
+    }
   }
 
   subscribe(callback: (message: OscMessage) => void, address?: string) {

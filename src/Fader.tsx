@@ -70,27 +70,21 @@ type FaderProps = {
 export default function Fader({ xair, address }: FaderProps) {
   const classes = useStyles();
   const [level, setLevel] = useState(0);
+  const [levelText, setLevelText] = useState<string | null>(null);
 
   async function updateLevel(level: number) {
-    const message = await xair.patch({
+    xair.patch({
       address: address,
       arguments: [level],
     });
-    setLevel(message.arguments[0] as number);
   }
-
-  useEffect(() => {
-    async function fetchData() {
-      const message = await xair.get(address);
-      setLevel(message.arguments[0] as number);
-    }
-    fetchData();
-  }, [xair, address]);
 
   useEffect(() => {
     const name = xair.subscribe((message) => {
       setLevel(message.arguments[0] as number);
     }, address);
+    xair.get(address);
+
     return () => {
       xair.unsubscribe(name);
     };
@@ -122,8 +116,15 @@ export default function Fader({ xair, address }: FaderProps) {
       <Grid item>
         <Input
           className={classes.input}
-          value={dbToString(levelToDb(level), 1)}
+          value={levelText ?? dbToString(levelToDb(level), 1)}
+          onBlur={() => setLevelText(null)}
+          onKeyPress={(event) => {
+            if (event.key === "Enter") {
+              setLevelText(null);
+            }
+          }}
           onChange={(event) => {
+            setLevelText(event.target.value);
             updateLevel(dbToLevel(Number(event.target.value)));
           }}
           margin="dense"

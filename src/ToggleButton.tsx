@@ -40,25 +40,18 @@ export default function ToggleButton({
   const [ON, OFF] = invert ? [0, 1] : [1, 0];
 
   async function updateToggled(toggled: number) {
-    const message = await xair.patch({
+    xair.patch({
       address: address,
       arguments: [toggled],
     });
-    setToggled(message.arguments[0] as number);
   }
-
-  useEffect(() => {
-    async function fetchData() {
-      const message = await xair.get(address);
-      setToggled(message.arguments[0] as number);
-    }
-    fetchData();
-  }, [xair, address]);
 
   useEffect(() => {
     const name = xair.subscribe((message) => {
       setToggled(message.arguments[0] as number);
     }, address);
+    xair.get(address);
+
     return () => {
       xair.unsubscribe(name);
     };
