@@ -7,9 +7,8 @@ export class XAir {
   baseUrl: string;
   client: WebSocket;
   subscriptions: {
-    [name: string]: {
-      callback: (message: OscMessage) => void;
-      address?: string;
+    [address: string]: {
+      [name: string]: (message: OscMessage) => void;
     };
   } = {};
 
@@ -40,21 +39,24 @@ export class XAir {
   }
 
   publish(message: OscMessage) {
-    for (var key in this.subscriptions) {
-      const { callback, address } = this.subscriptions[key];
-      if (!address || message.address === address) {
+    if (message.address in this.subscriptions) {
+      for (var name in this.subscriptions[message.address]) {
+        const callback = this.subscriptions[message.address][name];
         callback(message);
       }
     }
   }
 
-  subscribe(callback: (message: OscMessage) => void, address?: string) {
+  subscribe(address: string, callback: (message: OscMessage) => void) {
     const name = "" + Math.random().toString(36).substring(2);
-    this.subscriptions[name] = { callback, address };
+    if (!(address in this.subscriptions)) {
+      this.subscriptions[address] = {};
+    }
+    this.subscriptions[address][name] = callback;
     return name;
   }
 
-  unsubscribe(name: string) {
-    delete this.subscriptions[name];
+  unsubscribe(address: string, name: string) {
+    delete this.subscriptions[address][name];
   }
 }

@@ -80,13 +80,13 @@ export default function Fader({ xair, address }: FaderProps) {
   }
 
   useEffect(() => {
-    const name = xair.subscribe((message) => {
+    const name = xair.subscribe(address, (message) => {
       setLevel(message.arguments[0] as number);
-    }, address);
+    });
     xair.get(address);
 
     return () => {
-      xair.unsubscribe(name);
+      xair.unsubscribe(address, name);
     };
   }, [xair, address]);
 

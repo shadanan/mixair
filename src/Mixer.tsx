@@ -10,14 +10,6 @@ type MixerProps = {
 export default function Mixer({ xair }: MixerProps) {
   return (
     <Box>
-      {/* {Array.from({ length: 36 }, (_, i) => (
-        <Meter
-          key={`/meters/2/${i}`}
-          xair={xair}
-          address={"/meters/2"}
-          meter={i}
-        />
-      ))} */}
       <Channel
         xair={xair}
         channelName={"LR"}

@@ -16,12 +16,12 @@ export default function Meter({ xair, address, meter }: MeterProps) {
   const [level, setLevel] = useState(-32768);
 
   useEffect(() => {
-    const name = xair.subscribe((message) => {
+    const name = xair.subscribe(address, (message) => {
       setLevel(message.arguments[meter] as number);
-    }, address);
+    });
 
     return () => {
-      xair.unsubscribe(name);
+      xair.unsubscribe(address, name);
     };
   }, [xair, address, meter]);
 

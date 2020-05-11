@@ -12,13 +12,13 @@ export default function Label({ xair, name, address }: LabelProps) {
   const [label, setLabel] = useState("");
 
   useEffect(() => {
-    const name = xair.subscribe((message) => {
+    const name = xair.subscribe(address, (message) => {
       setLabel(message.arguments[0] as string);
-    }, address);
+    });
     xair.get(address);
 
     return () => {
-      xair.unsubscribe(name);
+      xair.unsubscribe(address, name);
     };
   }, [xair, address]);
 

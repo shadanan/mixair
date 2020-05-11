@@ -47,13 +47,13 @@ export default function ToggleButton({
   }
 
   useEffect(() => {
-    const name = xair.subscribe((message) => {
+    const name = xair.subscribe(address, (message) => {
       setToggled(message.arguments[0] as number);
-    }, address);
+    });
     xair.get(address);
 
     return () => {
-      xair.unsubscribe(name);
+      xair.unsubscribe(address, name);
     };
   }, [xair, address]);
 
