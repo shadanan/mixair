@@ -20,6 +20,8 @@ const useStyles = makeStyles({
     background: grey[900],
     marginLeft: "auto",
     marginRight: 0,
+    transition: "width 0.1s",
+    transitionTimingFunction: "ease-out",
   },
 });
 
