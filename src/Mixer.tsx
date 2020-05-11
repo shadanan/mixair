@@ -10,6 +10,14 @@ type MixerProps = {
 export default function Mixer({ xair }: MixerProps) {
   return (
     <Box>
+      {/* {Array.from({ length: 36 }, (_, i) => (
+        <Meter
+          key={`/meters/2/${i}`}
+          xair={xair}
+          address={"/meters/2"}
+          meter={i}
+        />
+      ))} */}
       <Channel
         xair={xair}
         channelName={"LR"}
@@ -25,6 +33,7 @@ export default function Mixer({ xair }: MixerProps) {
         muteAddress={"/rtn/aux/mix/on"}
         soloAddress={"/-stat/solosw/17"}
         faderAddress={"/rtn/aux/mix/fader"}
+        meterId={17}
       />
       {Array.from({ length: 16 }, (_, i) => {
         const channelLabel = String(i + 1).padStart(2, "0");
@@ -37,6 +46,7 @@ export default function Mixer({ xair }: MixerProps) {
             muteAddress={`/ch/${channelLabel}/mix/on`}
             soloAddress={`/-stat/solosw/${channelLabel}`}
             faderAddress={`/ch/${channelLabel}/mix/fader`}
+            meterId={i}
           />
         );
       })}

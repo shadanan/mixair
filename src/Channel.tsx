@@ -6,6 +6,7 @@ import Paper from "@material-ui/core/Paper";
 import React from "react";
 import Fader from "./Fader";
 import Label from "./Label";
+import Meter from "./Meter";
 import ToggleButton from "./ToggleButton";
 import { XAir } from "./XAir";
 
@@ -16,6 +17,7 @@ type ChannelProps = {
   muteAddress: string;
   soloAddress: string;
   faderAddress: string;
+  meterId?: number;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -35,8 +37,24 @@ function Channel({
   muteAddress,
   soloAddress,
   faderAddress,
+  meterId,
 }: ChannelProps) {
   const classes = useStyles();
+
+  let a2dLevel = <></>;
+  let usbLevel = <></>;
+  if (meterId !== undefined) {
+    a2dLevel = (
+      <Grid item>
+        <Meter xair={xair} address={"/meters/2"} meter={meterId} />
+      </Grid>
+    );
+    usbLevel = (
+      <Grid item>
+        <Meter xair={xair} address={"/meters/2"} meter={meterId + 16} />
+      </Grid>
+    );
+  }
 
   return (
     <Paper className={classes.paper}>
@@ -66,7 +84,18 @@ function Channel({
               </ToggleButton>
             </Grid>
             <Grid item className={classes.flex}>
-              <Fader xair={xair} address={faderAddress} />
+              <Grid
+                container
+                direction="column"
+                alignItems="stretch"
+                spacing={1}
+              >
+                {a2dLevel}
+                {usbLevel}
+                <Grid item>
+                  <Fader xair={xair} address={faderAddress} />
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

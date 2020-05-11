@@ -49,7 +49,7 @@ export class XAir {
   }
 
   subscribe(callback: (message: OscMessage) => void, address?: string) {
-    const name = address || "" + Math.random().toString(36).substring(2);
+    const name = "" + Math.random().toString(36).substring(2);
     this.subscriptions[name] = { callback, address };
     return name;
   }
