@@ -1,13 +1,21 @@
 import Box from "@material-ui/core/Box";
-import React from "react";
+import React, { useEffect } from "react";
 import Channel from "./Channel";
 import { XAir } from "./XAir";
 
 type MixerProps = {
-  xair: XAir;
+  mixer: string;
 };
 
-export default function Mixer({ xair }: MixerProps) {
+export default function Mixer({ mixer }: MixerProps) {
+  const xair = new XAir(`${window.location.host}/xair/${mixer}`);
+
+  useEffect(() => {
+    return () => {
+      xair.close();
+    };
+  }, [xair]);
+
   return (
     <Box>
       <Channel
