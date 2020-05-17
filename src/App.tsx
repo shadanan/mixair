@@ -2,8 +2,8 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Mixer from "./Mixer";
-import MixerSelect from "./MixerSelect";
+import XAirMixer from "./XAirMixer";
+import XAirMixerSelect from "./XAirMixerSelect";
 
 const theme = createMuiTheme({
   palette: {
@@ -26,9 +26,9 @@ function HomeRouter() {
       <Switch>
         <Route
           path="/mixer/:mixer"
-          render={(props) => <Mixer mixer={props.match.params.mixer} />}
+          render={(props) => <XAirMixer mixer={props.match.params.mixer} />}
         />
-        <Route path="/mixer" component={MixerSelect} />
+        <Route path="/mixer" component={XAirMixerSelect} />
       </Switch>
     </Router>
   );

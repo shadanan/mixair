@@ -12,7 +12,7 @@ function normalize(level: number): number {
   return Math.max(Math.min(((level + 18432) * 100) / 18432, 100), 0);
 }
 
-export default function Meter({ xair, address, meter }: MeterProps) {
+export default function XAirMeter({ xair, address, meter }: MeterProps) {
   const [level, setLevel] = useState(-32768);
 
   useEffect(() => {

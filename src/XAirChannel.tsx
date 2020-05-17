@@ -4,11 +4,11 @@ import yellow from "@material-ui/core/colors/yellow";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import React from "react";
-import Fader from "./Fader";
-import Label from "./Label";
-import Meter from "./Meter";
-import ToggleButton from "./ToggleButton";
 import { XAir } from "./XAir";
+import XAirFader from "./XAirFader";
+import XAirLabel from "./XAirLabel";
+import XAirMeter from "./XAirMeter";
+import XAirToggleButton from "./XAirToggleButton";
 
 type ChannelProps = {
   xair: XAir;
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Channel({
+export default function XAirChannel({
   xair,
   channelName,
   nameAddress,
@@ -46,12 +46,12 @@ function Channel({
   if (meterId !== undefined) {
     a2dLevel = (
       <Grid item>
-        <Meter xair={xair} address={"/meters/2"} meter={meterId} />
+        <XAirMeter xair={xair} address={"/meters/2"} meter={meterId} />
       </Grid>
     );
     usbLevel = (
       <Grid item>
-        <Meter xair={xair} address={"/meters/2"} meter={meterId + 16} />
+        <XAirMeter xair={xair} address={"/meters/2"} meter={meterId + 16} />
       </Grid>
     );
   }
@@ -60,28 +60,28 @@ function Channel({
     <Paper className={classes.paper}>
       <Grid container direction="column" alignItems="stretch" spacing={1}>
         <Grid item>
-          <Label xair={xair} name={channelName} address={nameAddress} />
+          <XAirLabel xair={xair} name={channelName} address={nameAddress} />
         </Grid>
         <Grid item>
           <Grid container direction="row" alignItems="center" spacing={1}>
             <Grid item>
-              <ToggleButton
+              <XAirToggleButton
                 xair={xair}
                 address={muteAddress}
                 color={red[500]}
                 invert={true}
               >
                 M
-              </ToggleButton>
+              </XAirToggleButton>
             </Grid>
             <Grid item>
-              <ToggleButton
+              <XAirToggleButton
                 xair={xair}
                 address={soloAddress}
                 color={yellow[500]}
               >
                 S
-              </ToggleButton>
+              </XAirToggleButton>
             </Grid>
             <Grid item className={classes.flex}>
               <Grid
@@ -93,7 +93,7 @@ function Channel({
                 {a2dLevel}
                 {usbLevel}
                 <Grid item>
-                  <Fader xair={xair} address={faderAddress} />
+                  <XAirFader xair={xair} address={faderAddress} />
                 </Grid>
               </Grid>
             </Grid>
@@ -103,5 +103,3 @@ function Channel({
     </Paper>
   );
 }
-
-export default Channel;

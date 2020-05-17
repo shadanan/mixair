@@ -8,7 +8,7 @@ type LabelProps = {
   address: string;
 };
 
-export default function Label({ xair, name, address }: LabelProps) {
+export default function XAirLabel({ xair, name, address }: LabelProps) {
   const [label, setLabel] = useState("");
 
   useEffect(() => {

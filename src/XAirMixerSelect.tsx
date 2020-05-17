@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function MixerSelect() {
+export default function XAirMixerSelect() {
   const classes = useStyles();
   const [mixers, setMixers] = useState([]);
 
@@ -51,5 +51,3 @@ function MixerSelect() {
     </Container>
   );
 }
-
-export default MixerSelect;

@@ -67,7 +67,7 @@ type FaderProps = {
   address: string;
 };
 
-export default function Fader({ xair, address }: FaderProps) {
+export default function XAirFader({ xair, address }: FaderProps) {
   const classes = useStyles();
   const [level, setLevel] = useState(0);
   const [levelText, setLevelText] = useState<string | null>(null);
