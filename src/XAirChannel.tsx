@@ -1,14 +1,30 @@
 import { makeStyles } from "@material-ui/core";
+import Collapse from "@material-ui/core/Collapse";
 import red from "@material-ui/core/colors/red";
 import yellow from "@material-ui/core/colors/yellow";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import React from "react";
+import ExpandLessIcon from "@material-ui/icons/ExpandLess";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import React, { useEffect, useState } from "react";
 import { XAir } from "./XAir";
 import XAirFader from "./XAirFader";
 import XAirLabel from "./XAirLabel";
 import XAirMeter from "./XAirMeter";
 import XAirToggleButton from "./XAirToggleButton";
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    padding: theme.spacing(),
+  },
+  flex: {
+    flexGrow: 1,
+  },
+  channelConfig: {
+    padding: theme.spacing(0.5),
+  },
+}));
 
 type ChannelProps = {
   xair: XAir;
@@ -18,17 +34,8 @@ type ChannelProps = {
   soloAddress: string;
   faderAddress: string;
   meterId?: number;
+  expandedDefault?: boolean;
 };
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    padding: theme.spacing(),
-    margin: theme.spacing(),
-  },
-  flex: {
-    flexGrow: 1,
-  },
-}));
 
 export default function XAirChannel({
   xair,
@@ -38,21 +45,21 @@ export default function XAirChannel({
   soloAddress,
   faderAddress,
   meterId,
+  expandedDefault = false,
 }: ChannelProps) {
   const classes = useStyles();
+  const [expanded, setExpanded] = useState(false);
+
+  useEffect(() => {
+    setExpanded(expandedDefault);
+  }, [expandedDefault]);
 
   let a2dLevel = <></>;
   let usbLevel = <></>;
   if (meterId !== undefined) {
-    a2dLevel = (
-      <Grid item>
-        <XAirMeter xair={xair} address={"/meters/2"} meter={meterId} />
-      </Grid>
-    );
+    a2dLevel = <XAirMeter xair={xair} address={"/meters/2"} meter={meterId} />;
     usbLevel = (
-      <Grid item>
-        <XAirMeter xair={xair} address={"/meters/2"} meter={meterId + 16} />
-      </Grid>
+      <XAirMeter xair={xair} address={"/meters/2"} meter={meterId + 16} />
     );
   }
 
@@ -84,21 +91,29 @@ export default function XAirChannel({
               </XAirToggleButton>
             </Grid>
             <Grid item className={classes.flex}>
-              <Grid
-                container
-                direction="column"
-                alignItems="stretch"
-                spacing={1}
+              {a2dLevel}
+              {usbLevel}
+            </Grid>
+            <Grid item>
+              <ToggleButton
+                size="small"
+                value="check"
+                onChange={() => setExpanded(!expanded)}
               >
-                {a2dLevel}
-                {usbLevel}
-                <Grid item>
-                  <XAirFader xair={xair} address={faderAddress} />
-                </Grid>
-              </Grid>
+                {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+              </ToggleButton>
             </Grid>
           </Grid>
         </Grid>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <Grid item className={classes.channelConfig}>
+            <Grid container direction="column" spacing={1}>
+              <Grid item>
+                <XAirFader xair={xair} address={faderAddress} />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Collapse>
       </Grid>
     </Paper>
   );

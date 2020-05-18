@@ -5,14 +5,6 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import React, { useEffect, useState } from "react";
 import { XAir } from "./XAir";
 
-type XAirToggleButtonProps = {
-  xair: XAir;
-  address: string;
-  children: React.ReactNode;
-  color?: string;
-  invert?: boolean;
-};
-
 type StyleProps = {
   color: string;
 };
@@ -27,6 +19,14 @@ const useStyles = makeStyles((theme) => ({
   }),
   selected: () => ({}),
 }));
+
+type XAirToggleButtonProps = {
+  xair: XAir;
+  address: string;
+  children: React.ReactNode;
+  color?: string;
+  invert?: boolean;
+};
 
 export default function XAirToggleButton({
   xair,
