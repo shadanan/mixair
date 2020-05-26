@@ -1,6 +1,10 @@
-import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
+import {
+  Box,
+  createMuiTheme,
+  CssBaseline,
+  ThemeProvider,
+} from "@material-ui/core";
 import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
 import TopAppBar from "./TopAppBar";
 import { AppBarContextProvider, useAppBarContext } from "./TopAppBarContext";
 import XAirMixer from "./XAirMixer";
@@ -25,10 +29,10 @@ function App() {
 function HomeRouter() {
   const { mixer } = useAppBarContext();
   return (
-    <Router>
+    <Box>
       <TopAppBar />
       {mixer ? <XAirMixer mixer={mixer} /> : null}
-    </Router>
+    </Box>
   );
 }
 
