@@ -1,4 +1,4 @@
-import Typography from "@material-ui/core/Typography";
+import { Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { XAir } from "./XAir";
 

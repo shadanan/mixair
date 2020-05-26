@@ -1,13 +1,10 @@
-import { makeStyles } from "@material-ui/core";
-import Collapse from "@material-ui/core/Collapse";
-import red from "@material-ui/core/colors/red";
-import yellow from "@material-ui/core/colors/yellow";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
+import { Collapse, Grid, makeStyles, Paper } from "@material-ui/core";
+import { red, yellow } from "@material-ui/core/colors";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import React, { useEffect, useState } from "react";
+import { useAppBarContext } from "./TopAppBarContext";
 import { XAir } from "./XAir";
 import XAirFader from "./XAirFader";
 import XAirLabel from "./XAirLabel";
@@ -45,14 +42,16 @@ export default function XAirChannel({
   soloAddress,
   faderAddress,
   meterId,
-  expandedDefault = false,
 }: ChannelProps) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
+  const { updateExpandables } = useAppBarContext();
 
   useEffect(() => {
-    setExpanded(expandedDefault);
-  }, [expandedDefault]);
+    updateExpandables({ type: "register", callback: setExpanded });
+    return () =>
+      updateExpandables({ type: "unregister", callback: setExpanded });
+  }, [updateExpandables]);
 
   let a2dLevel = <></>;
   let usbLevel = <></>;

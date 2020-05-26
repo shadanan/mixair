@@ -1,9 +1,9 @@
-import { createMuiTheme, ThemeProvider } from "@material-ui/core";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
+import TopAppBar from "./TopAppBar";
+import { AppBarContextProvider, useAppBarContext } from "./TopAppBarContext";
 import XAirMixer from "./XAirMixer";
-import XAirMixerSelect from "./XAirMixerSelect";
 
 const theme = createMuiTheme({
   palette: {
@@ -13,23 +13,21 @@ const theme = createMuiTheme({
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <HomeRouter />
-    </ThemeProvider>
+    <AppBarContextProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <HomeRouter />
+      </ThemeProvider>
+    </AppBarContextProvider>
   );
 }
 
 function HomeRouter() {
+  const { mixer } = useAppBarContext();
   return (
     <Router>
-      <Switch>
-        <Route
-          path="/mixer/:mixer"
-          render={(props) => <XAirMixer mixer={props.match.params.mixer} />}
-        />
-        <Route path="/mixer" component={XAirMixerSelect} />
-      </Switch>
+      <TopAppBar />
+      {mixer ? <XAirMixer mixer={mixer} /> : null}
     </Router>
   );
 }

@@ -1,8 +1,5 @@
 import { makeStyles } from "@material-ui/core";
-import green from "@material-ui/core/colors/green";
-import grey from "@material-ui/core/colors/grey";
-import red from "@material-ui/core/colors/red";
-import yellow from "@material-ui/core/colors/yellow";
+import { green, grey, red, yellow } from "@material-ui/core/colors";
 import React from "react";
 
 type LevelIndicatorProps = {

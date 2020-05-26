@@ -1,9 +1,11 @@
-import { makeStyles } from "@material-ui/core";
-import Grid from "@material-ui/core/Grid";
-import Input from "@material-ui/core/Input";
-import Paper from "@material-ui/core/Paper";
-import Slider from "@material-ui/core/Slider";
-import Tooltip from "@material-ui/core/Tooltip";
+import {
+  Grid,
+  Input,
+  makeStyles,
+  Paper,
+  Slider,
+  Tooltip,
+} from "@material-ui/core";
 import React, { ReactElement, useEffect, useState } from "react";
 import { XAir } from "./XAir";
 
