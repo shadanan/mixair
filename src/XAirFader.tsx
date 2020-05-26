@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import React, { ReactElement, useEffect, useState } from "react";
 import { XAir } from "./XAir";
+import XAirLabel from "./XAirLabel";
 
 const useStyles = makeStyles((theme) => ({
   flex: {
@@ -66,34 +67,42 @@ function ValueLabelComponent({ open, value, children }: ValueLabelProps) {
 
 type FaderProps = {
   xair: XAir;
-  address: string;
+  faderAddress: string;
+  labelAddress: string;
 };
 
-export default function XAirFader({ xair, address }: FaderProps) {
+export default function XAirFader({
+  xair,
+  faderAddress,
+  labelAddress,
+}: FaderProps) {
   const classes = useStyles();
   const [level, setLevel] = useState(0);
   const [levelText, setLevelText] = useState<string | null>(null);
 
   async function updateLevel(level: number) {
     xair.patch({
-      address: address,
+      address: faderAddress,
       arguments: [level],
     });
   }
 
   useEffect(() => {
-    const name = xair.subscribe(address, (message) => {
+    const name = xair.subscribe(faderAddress, (message) => {
       setLevel(message.arguments[0] as number);
     });
-    xair.get(address);
+    xair.get(faderAddress);
 
     return () => {
-      xair.unsubscribe(address, name);
+      xair.unsubscribe(faderAddress, name);
     };
-  }, [xair, address]);
+  }, [xair, faderAddress]);
 
   return (
-    <Grid container alignItems="center" spacing={1}>
+    <Grid container alignItems="center" spacing={2}>
+      <Grid item>
+        <XAirLabel xair={xair} address={labelAddress} alt="LR" />
+      </Grid>
       <Grid item className={classes.flex}>
         <Paper className={classes.well}>
           <Slider

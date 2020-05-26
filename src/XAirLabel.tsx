@@ -4,11 +4,12 @@ import { XAir } from "./XAir";
 
 type LabelProps = {
   xair: XAir;
-  name: string;
   address: string;
+  prefix?: string;
+  alt?: string;
 };
 
-export default function XAirLabel({ xair, name, address }: LabelProps) {
+export default function XAirLabel({ xair, address, prefix, alt }: LabelProps) {
   const [label, setLabel] = useState("");
 
   useEffect(() => {
@@ -24,8 +25,9 @@ export default function XAirLabel({ xair, name, address }: LabelProps) {
 
   return (
     <Typography variant="caption">
-      {name}
-      {label === "" ? "" : `: ${label}`}
+      {prefix}
+      {prefix && (label || alt) ? ": " : ""}
+      {label || alt}
     </Typography>
   );
 }

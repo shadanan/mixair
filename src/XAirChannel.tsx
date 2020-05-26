@@ -66,7 +66,7 @@ export default function XAirChannel({
     <Paper className={classes.paper}>
       <Grid container direction="column" alignItems="stretch" spacing={1}>
         <Grid item>
-          <XAirLabel xair={xair} name={channelName} address={nameAddress} />
+          <XAirLabel xair={xair} prefix={channelName} address={nameAddress} />
         </Grid>
         <Grid item>
           <Grid container direction="row" alignItems="center" spacing={1}>
@@ -108,7 +108,11 @@ export default function XAirChannel({
           <Grid item className={classes.channelConfig}>
             <Grid container direction="column" spacing={1}>
               <Grid item>
-                <XAirFader xair={xair} address={faderAddress} />
+                <XAirFader
+                  xair={xair}
+                  faderAddress={faderAddress}
+                  labelAddress="/lr/config/name"
+                />
               </Grid>
             </Grid>
           </Grid>
