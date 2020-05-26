@@ -1,16 +1,14 @@
 import {
-  faAngleDoubleDown,
-  faAngleDoubleUp,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
   AppBar,
   Box,
   IconButton,
   makeStyles,
   Toolbar,
+  Tooltip,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
+import UnfoldLessIcon from "@material-ui/icons/UnfoldLess";
+import UnfoldMoreIcon from "@material-ui/icons/UnfoldMore";
 import React from "react";
 import { useAppBarContext } from "./TopAppBarContext";
 import XAirMixerSelect from "./XAirMixerSelect";
@@ -34,12 +32,16 @@ export default function TopAppBar() {
           </IconButton>
           <XAirMixerSelect />
           <Box className={classes.flex} />
-          <IconButton aria-label="expand all" onClick={expandAll}>
-            <FontAwesomeIcon icon={faAngleDoubleDown} />
-          </IconButton>
-          <IconButton aria-label="collapse all" onClick={collapseAll}>
-            <FontAwesomeIcon icon={faAngleDoubleUp} />
-          </IconButton>
+          <Tooltip title="Expand All">
+            <IconButton aria-label="expand" onClick={expandAll}>
+              <UnfoldMoreIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Collapse All">
+            <IconButton aria-label="collapse" onClick={collapseAll}>
+              <UnfoldLessIcon />
+            </IconButton>
+          </Tooltip>
         </Toolbar>
       </AppBar>
     </div>
