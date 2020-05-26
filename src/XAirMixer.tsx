@@ -6,6 +6,7 @@ import XAirChannel from "./XAirChannel";
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(),
+    paddingRight: 0,
   },
 }));
 
@@ -24,7 +25,7 @@ export default function XAirMixer({ mixer }: MixerProps) {
   }, [xair]);
 
   return (
-    <Grid container spacing={1} className={classes.root}>
+    <Grid container spacing={1} xs={12} className={classes.root}>
       <Grid item xs={12} md={6} lg={4} xl={3}>
         <XAirChannel
           xair={xair}
