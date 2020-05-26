@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
   flex: {
     flexGrow: 1,
   },
+  appBar: {
+    background: theme.palette.primary.dark,
+  },
 }));
 
 export default function TopAppBar() {
@@ -25,7 +28,7 @@ export default function TopAppBar() {
 
   return (
     <div className={classes.flex}>
-      <AppBar position="static">
+      <AppBar className={classes.appBar} position="static">
         <Toolbar>
           <IconButton aria-label="menu">
             <MenuIcon />
