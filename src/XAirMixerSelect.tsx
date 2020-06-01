@@ -22,7 +22,7 @@ export default function XAirMixerSelect() {
 
   useEffect(() => {
     async function fetchMixers() {
-      const resp = await fetch(`/xair`);
+      const resp = await fetch(`/api/xairs`);
       const json = await resp.json();
       setMixers(json.xair);
     }

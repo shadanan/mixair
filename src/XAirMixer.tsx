@@ -17,7 +17,7 @@ type MixerProps = {
 
 export default function XAirMixer({ mixer }: MixerProps) {
   const classes = useStyles();
-  const xair = new XAir(`${window.location.host}/xair/${mixer}`);
+  const xair = new XAir(mixer);
 
   useEffect(() => {
     return () => {
