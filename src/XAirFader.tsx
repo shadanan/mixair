@@ -69,12 +69,14 @@ type FaderProps = {
   xair: XAir;
   faderAddress: string;
   labelAddress: string;
+  altLabelName: string;
 };
 
 export default function XAirFader({
   xair,
   faderAddress,
   labelAddress,
+  altLabelName,
 }: FaderProps) {
   const classes = useStyles();
   const [level, setLevel] = useState(0);
@@ -101,7 +103,7 @@ export default function XAirFader({
   return (
     <Grid container alignItems="center" spacing={2}>
       <Grid item>
-        <XAirLabel xair={xair} address={labelAddress} alt="LR" />
+        <XAirLabel xair={xair} address={labelAddress} alt={altLabelName} />
       </Grid>
       <Grid item className={classes.flex}>
         <Paper className={classes.well}>

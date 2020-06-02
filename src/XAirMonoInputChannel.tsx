@@ -23,28 +23,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type ChannelProps = {
+type XAirMonoInputChannelProps = {
   xair: XAir;
-  channelName: string;
-  nameAddress: string;
-  muteAddress: string;
-  soloAddress: string;
-  faderAddress: string;
-  meterId?: number;
+  channelId: number;
 };
 
-export default function XAirChannel({
+export default function XAirMonoInputChannel({
   xair,
-  channelName,
-  nameAddress,
-  muteAddress,
-  soloAddress,
-  faderAddress,
-  meterId,
-}: ChannelProps) {
+  channelId,
+}: XAirMonoInputChannelProps) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const { updateExpandables } = useAppBarContext();
+
+  const channelName = String(channelId + 1).padStart(2, "0");
 
   useEffect(() => {
     updateExpandables({ type: "register", callback: setExpanded });
@@ -52,27 +44,22 @@ export default function XAirChannel({
       updateExpandables({ type: "unregister", callback: setExpanded });
   }, [updateExpandables]);
 
-  let a2dLevel = <></>;
-  let usbLevel = <></>;
-  if (meterId !== undefined) {
-    a2dLevel = <XAirMeter xair={xair} address={"/meters/2"} meter={meterId} />;
-    usbLevel = (
-      <XAirMeter xair={xair} address={"/meters/2"} meter={meterId + 16} />
-    );
-  }
-
   return (
     <Paper className={classes.paper}>
       <Grid container direction="column" alignItems="stretch" spacing={1}>
         <Grid item>
-          <XAirLabel xair={xair} prefix={channelName} address={nameAddress} />
+          <XAirLabel
+            xair={xair}
+            prefix={channelName}
+            address={`/ch/${channelName}/config/name`}
+          />
         </Grid>
         <Grid item>
           <Grid container direction="row" alignItems="center" spacing={1}>
             <Grid item>
               <XAirToggleButton
                 xair={xair}
-                address={muteAddress}
+                address={`/ch/${channelName}/mix/on`}
                 color={red[500]}
                 invert={true}
               >
@@ -82,15 +69,19 @@ export default function XAirChannel({
             <Grid item>
               <XAirToggleButton
                 xair={xair}
-                address={soloAddress}
+                address={`/-stat/solosw/${channelName}`}
                 color={yellow[500]}
               >
                 S
               </XAirToggleButton>
             </Grid>
             <Grid item className={classes.flex}>
-              {a2dLevel}
-              {usbLevel}
+              <XAirMeter xair={xair} address={"/meters/2"} meter={channelId} />
+              <XAirMeter
+                xair={xair}
+                address={"/meters/2"}
+                meter={channelId + 16}
+              />
             </Grid>
             <Grid item>
               <ToggleButton
@@ -109,10 +100,22 @@ export default function XAirChannel({
               <Grid item>
                 <XAirFader
                   xair={xair}
-                  faderAddress={faderAddress}
+                  faderAddress={`/ch/${channelName}/mix/fader`}
                   labelAddress="/lr/config/name"
                   altLabelName="LR"
                 />
+                {Array.from({ length: 6 }, (_, i) => {
+                  const busId = i + 1;
+                  const busName = String(busId).padStart(2, "0");
+                  return (
+                    <XAirFader
+                      xair={xair}
+                      faderAddress={`/ch/${channelName}/mix/${busName}/level`}
+                      labelAddress={`/bus/${busId}/config/name`}
+                      altLabelName={`Bus ${busId}`}
+                    />
+                  );
+                })}
               </Grid>
             </Grid>
           </Grid>
