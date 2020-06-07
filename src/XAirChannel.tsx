@@ -1,5 +1,4 @@
 import { Collapse, Grid, makeStyles, Paper } from "@material-ui/core";
-import { red, yellow } from "@material-ui/core/colors";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ToggleButton from "@material-ui/lab/ToggleButton";
@@ -9,7 +8,8 @@ import { XAir } from "./XAir";
 import XAirFader from "./XAirFader";
 import XAirLabel from "./XAirLabel";
 import XAirMeter from "./XAirMeter";
-import XAirToggleButton from "./XAirToggleButton";
+import XAirMuteButton from "./XAirMuteButton";
+import XAirSoloButton from "./XAirSoloButton";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type ChannelProps = {
+type XAirChannelProps = {
   xair: XAir;
   channelName: string;
   nameAddress: string;
@@ -41,7 +41,7 @@ export default function XAirChannel({
   soloAddress,
   faderAddress,
   meterId,
-}: ChannelProps) {
+}: XAirChannelProps) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const { updateExpandables } = useAppBarContext();
@@ -70,23 +70,10 @@ export default function XAirChannel({
         <Grid item>
           <Grid container direction="row" alignItems="center" spacing={1}>
             <Grid item>
-              <XAirToggleButton
-                xair={xair}
-                address={muteAddress}
-                color={red[500]}
-                invert={true}
-              >
-                M
-              </XAirToggleButton>
+              <XAirMuteButton xair={xair} address={muteAddress} />
             </Grid>
             <Grid item>
-              <XAirToggleButton
-                xair={xair}
-                address={soloAddress}
-                color={yellow[500]}
-              >
-                S
-              </XAirToggleButton>
+              <XAirSoloButton xair={xair} address={soloAddress} />
             </Grid>
             <Grid item className={classes.flex}>
               {a2dLevel}
