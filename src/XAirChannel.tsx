@@ -4,7 +4,6 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import React, { useEffect, useState } from "react";
 import { useAppBarContext } from "./TopAppBarContext";
-import { XAir } from "./XAir";
 import XAirFader from "./XAirFader";
 import XAirLabel from "./XAirLabel";
 import XAirMeter from "./XAirMeter";
@@ -24,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type XAirChannelProps = {
-  xair: XAir;
   channelName: string;
   nameAddress: string;
   muteAddress: string;
@@ -34,7 +32,6 @@ type XAirChannelProps = {
 };
 
 export default function XAirChannel({
-  xair,
   channelName,
   nameAddress,
   muteAddress,
@@ -55,25 +52,23 @@ export default function XAirChannel({
   let a2dLevel = <></>;
   let usbLevel = <></>;
   if (meterId !== undefined) {
-    a2dLevel = <XAirMeter xair={xair} address={"/meters/2"} meter={meterId} />;
-    usbLevel = (
-      <XAirMeter xair={xair} address={"/meters/2"} meter={meterId + 16} />
-    );
+    a2dLevel = <XAirMeter address={"/meters/2"} meter={meterId} />;
+    usbLevel = <XAirMeter address={"/meters/2"} meter={meterId + 16} />;
   }
 
   return (
     <Paper className={classes.paper}>
       <Grid container direction="column" alignItems="stretch" spacing={1}>
         <Grid item>
-          <XAirLabel xair={xair} prefix={channelName} address={nameAddress} />
+          <XAirLabel prefix={channelName} address={nameAddress} />
         </Grid>
         <Grid item>
           <Grid container direction="row" alignItems="center" spacing={1}>
             <Grid item>
-              <XAirMuteButton xair={xair} address={muteAddress} />
+              <XAirMuteButton address={muteAddress} />
             </Grid>
             <Grid item>
-              <XAirSoloButton xair={xair} address={soloAddress} />
+              <XAirSoloButton address={soloAddress} />
             </Grid>
             <Grid item className={classes.flex}>
               {a2dLevel}
@@ -95,7 +90,6 @@ export default function XAirChannel({
             <Grid container direction="column" spacing={1}>
               <Grid item>
                 <XAirFader
-                  xair={xair}
                   faderAddress={faderAddress}
                   labelAddress="/lr/config/name"
                   altLabelName="LR"

@@ -2,7 +2,7 @@ import { makeStyles, Typography } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import React, { useEffect, useState } from "react";
-import { XAir } from "./XAir";
+import { useXAirContext } from "./XAirContext";
 
 type StyleProps = {
   color: string;
@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type XAirToggleButtonProps = {
-  xair: XAir;
   address: string;
   children: React.ReactNode;
   color?: string;
@@ -28,7 +27,6 @@ type XAirToggleButtonProps = {
 };
 
 export default function XAirToggleButton({
-  xair,
   address,
   children,
   color = green[500],
@@ -36,6 +34,7 @@ export default function XAirToggleButton({
 }: XAirToggleButtonProps) {
   const classes = useStyles({ color });
   const [toggled, setToggled] = useState(0);
+  const xair = useXAirContext();
   const [ON, OFF] = invert ? [0, 1] : [1, 0];
 
   async function updateToggled(toggled: number) {

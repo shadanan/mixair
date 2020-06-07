@@ -7,7 +7,7 @@ import {
   Tooltip,
 } from "@material-ui/core";
 import React, { ReactElement, useEffect, useState } from "react";
-import { XAir } from "./XAir";
+import { useXAirContext } from "./XAirContext";
 import XAirLabel from "./XAirLabel";
 
 const useStyles = makeStyles((theme) => ({
@@ -66,14 +66,12 @@ function ValueLabelComponent({ open, value, children }: ValueLabelProps) {
 }
 
 type FaderProps = {
-  xair: XAir;
   faderAddress: string;
   labelAddress: string;
   altLabelName: string;
 };
 
 export default function XAirFader({
-  xair,
   faderAddress,
   labelAddress,
   altLabelName,
@@ -81,6 +79,7 @@ export default function XAirFader({
   const classes = useStyles();
   const [level, setLevel] = useState(0);
   const [levelText, setLevelText] = useState<string | null>(null);
+  const xair = useXAirContext();
 
   async function updateLevel(level: number) {
     xair.patch({
@@ -103,7 +102,7 @@ export default function XAirFader({
   return (
     <Grid container alignItems="center" spacing={2}>
       <Grid item>
-        <XAirLabel xair={xair} address={labelAddress} alt={altLabelName} />
+        <XAirLabel address={labelAddress} alt={altLabelName} />
       </Grid>
       <Grid item className={classes.flex}>
         <Paper className={classes.well}>
