@@ -4,10 +4,20 @@ import {
   Paper,
   ThemeProvider,
 } from "@material-ui/core";
-import React from "react";
+import React, { ReactNode } from "react";
 import LevelIndicator from "./LevelIndicator";
 
-export default { title: "Level Indicator" };
+export default {
+  title: "Level Indicator",
+  decorators: [
+    (storyFn: () => ReactNode) => (
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Paper style={{ padding: 10, margin: 10 }}>{storyFn()}</Paper>
+      </ThemeProvider>
+    ),
+  ],
+};
 
 const theme = createMuiTheme({
   palette: {
@@ -16,25 +26,7 @@ const theme = createMuiTheme({
 });
 
 export function with100Percent() {
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Paper style={{ padding: 10, margin: 10 }}>
-        <LevelIndicator
-          level={100}
-          marks={[
-            [0, "-∞"],
-            [10.71428571, "-50"],
-            [46.42857143, "-30"],
-            [64.28571429, "-20"],
-            [82.14285714, "-10"],
-            [91.07142857, "-5"],
-            [100, "0"],
-          ]}
-        ></LevelIndicator>
-      </Paper>
-    </ThemeProvider>
-  );
+  return <LevelIndicator level={100}></LevelIndicator>;
 }
 
 export function with50Percent() {

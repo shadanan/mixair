@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { useAppBarContext } from "./TopAppBarContext";
 import XAirFader from "./XAirFader";
 import XAirLabel from "./XAirLabel";
+import XAirMonoInMeter from "./XAirMonoInMeter";
 import XAirMuteButton from "./XAirMuteButton";
 import XAirSoloButton from "./XAirSoloButton";
 
@@ -21,26 +22,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type XAirChannelProps = {
-  channelName: string;
-  nameAddress: string;
-  muteAddress: string;
-  soloAddress: string;
-  faderAddress: string;
-  meterId?: number;
+type XAirMonoInChannelProps = {
+  channelId: number;
 };
 
-export default function XAirChannel({
-  channelName,
-  nameAddress,
-  muteAddress,
-  soloAddress,
-  faderAddress,
-  meterId,
-}: XAirChannelProps) {
+export default function XAirMonoInChannel({
+  channelId,
+}: XAirMonoInChannelProps) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const { updateExpandables } = useAppBarContext();
+
+  const channelName = String(channelId + 1).padStart(2, "0");
 
   useEffect(() => {
     updateExpandables({ type: "register", callback: setExpanded });
@@ -52,17 +45,22 @@ export default function XAirChannel({
     <Paper className={classes.paper}>
       <Grid container direction="column" alignItems="stretch" spacing={1}>
         <Grid item>
-          <XAirLabel prefix={channelName} address={nameAddress} />
+          <XAirLabel
+            prefix={channelName}
+            address={`/ch/${channelName}/config/name`}
+          />
         </Grid>
         <Grid item>
           <Grid container direction="row" alignItems="center" spacing={1}>
             <Grid item>
-              <XAirMuteButton address={muteAddress} />
+              <XAirMuteButton address={`/ch/${channelName}/mix/on`} />
             </Grid>
             <Grid item>
-              <XAirSoloButton address={soloAddress} />
+              <XAirSoloButton address={`/-stat/solosw/${channelName}`} />
             </Grid>
-            <Grid item className={classes.flex}></Grid>
+            <Grid item className={classes.flex}>
+              <XAirMonoInMeter address={"/meters/2"} channelId={channelId} />
+            </Grid>
             <Grid item>
               <ToggleButton
                 size="small"
@@ -79,10 +77,22 @@ export default function XAirChannel({
             <Grid container direction="column" spacing={1}>
               <Grid item>
                 <XAirFader
-                  faderAddress={faderAddress}
+                  faderAddress={`/ch/${channelName}/mix/fader`}
                   labelAddress="/lr/config/name"
                   altLabelName="LR"
                 />
+                {Array.from({ length: 6 }, (_, i) => {
+                  const busId = i + 1;
+                  const busName = String(busId).padStart(2, "0");
+                  return (
+                    <XAirFader
+                      key={busId}
+                      faderAddress={`/ch/${channelName}/mix/${busName}/level`}
+                      labelAddress={`/bus/${busId}/config/name`}
+                      altLabelName={`Bus ${busId}`}
+                    />
+                  );
+                })}
               </Grid>
             </Grid>
           </Grid>

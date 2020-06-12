@@ -4,7 +4,6 @@ import React from "react";
 
 type LevelIndicatorProps = {
   level: number;
-  marks?: [number, string][];
 };
 
 const useStyles = makeStyles({
@@ -21,32 +20,16 @@ const useStyles = makeStyles({
     transition: "width 0.1s",
     transitionTimingFunction: "ease-out",
   },
-  mark: {
-    position: "absolute",
-    transform: "translateX(-50%)",
-  },
 });
 
-export default function LevelIndicator({
-  level,
-  marks = [],
-}: LevelIndicatorProps) {
+export default function LevelIndicator({ level }: LevelIndicatorProps) {
   const classes = useStyles();
   return (
-    <div>
-      <div className={classes.activeBar}>
-        <div
-          className={classes.inactiveBar}
-          style={{ width: `${100 - level}%` }}
-        ></div>
-      </div>
-      <div style={{ position: "relative" }}>
-        {marks.map(([pos, value]) => (
-          <span className={classes.mark} style={{ left: `${pos}%` }}>
-            {value}
-          </span>
-        ))}
-      </div>
+    <div className={classes.activeBar}>
+      <div
+        className={classes.inactiveBar}
+        style={{ width: `${100 - level}%` }}
+      ></div>
     </div>
   );
 }
