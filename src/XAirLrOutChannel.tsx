@@ -8,6 +8,7 @@ import XAirFader from "./XAirFader";
 import XAirLabel from "./XAirLabel";
 import XAirMuteButton from "./XAirMuteButton";
 import XAirSoloButton from "./XAirSoloButton";
+import XAirStereoOutMeter from "./XAirStereoOutMeter";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -27,16 +28,14 @@ type XAirChannelProps = {
   muteAddress: string;
   soloAddress: string;
   faderAddress: string;
-  meterId?: number;
 };
 
-export default function XAirChannel({
+export default function XAirLrOutChannel({
   channelName,
   nameAddress,
   muteAddress,
   soloAddress,
   faderAddress,
-  meterId,
 }: XAirChannelProps) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
@@ -62,7 +61,9 @@ export default function XAirChannel({
             <Grid item>
               <XAirSoloButton address={soloAddress} />
             </Grid>
-            <Grid item className={classes.flex}></Grid>
+            <Grid item className={classes.flex}>
+              <XAirStereoOutMeter address={"/meters/5"} channelId={6} />
+            </Grid>
             <Grid item>
               <ToggleButton
                 size="small"

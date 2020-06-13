@@ -2,8 +2,8 @@ import { Grid, makeStyles } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { XAir } from "./XAir";
 import XAirAuxInChannel from "./XAirAuxInChannel";
-import XAirChannel from "./XAirChannel";
 import { XAirContextProvider } from "./XAirContext";
+import XAirLrOutChannel from "./XAirLrOutChannel";
 import XAirMonoInChannel from "./XAirMonoInChannel";
 
 const useStyles = makeStyles((theme) => ({
@@ -32,7 +32,7 @@ export default function XAirMixer({ mixer }: MixerProps) {
     <XAirContextProvider xair={xair}>
       <Grid container spacing={1} className={classes.root}>
         <Grid item xs={12} md={6} lg={4} xl={3}>
-          <XAirChannel
+          <XAirLrOutChannel
             channelName={"LR"}
             nameAddress={"/lr/config/name"}
             muteAddress={"/lr/mix/on"}
