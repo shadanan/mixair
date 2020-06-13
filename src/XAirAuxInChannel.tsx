@@ -37,15 +37,15 @@ export default function XAirAuxInChannel() {
     <Paper className={classes.paper}>
       <Grid container direction="column" alignItems="stretch" spacing={1}>
         <Grid item>
-          <XAirLabel prefix="Aux" address="/ch/aux/config/name" />
+          <XAirLabel prefix="Aux" address="/rtn/aux/config/name" />
         </Grid>
         <Grid item>
           <Grid container direction="row" alignItems="center" spacing={1}>
             <Grid item>
-              <XAirMuteButton address="/ch/aux/mix/on" />
+              <XAirMuteButton address="/rtn/aux/mix/on" />
             </Grid>
             <Grid item>
-              <XAirSoloButton address="/-stat/solosw/aux" />
+              <XAirSoloButton address="/-stat/solosw/17" />
             </Grid>
             <Grid item className={classes.flex}>
               <XAirAuxInMeter />
@@ -66,7 +66,7 @@ export default function XAirAuxInChannel() {
             <Grid container direction="column" spacing={1}>
               <Grid item>
                 <XAirFader
-                  faderAddress="/ch/aux/mix/fader"
+                  faderAddress="/rtn/aux/mix/fader"
                   labelAddress="/lr/config/name"
                   altLabelName="LR"
                 />
@@ -76,7 +76,7 @@ export default function XAirAuxInChannel() {
                   return (
                     <XAirFader
                       key={busId}
-                      faderAddress={`/ch/aux/mix/${busName}/level`}
+                      faderAddress={`/rtn/aux/mix/${busName}/level`}
                       labelAddress={`/bus/${busId}/config/name`}
                       altLabelName={`Bus ${busId}`}
                     />
