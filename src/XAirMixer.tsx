@@ -1,5 +1,5 @@
 import { Grid, makeStyles } from "@material-ui/core";
-import React, { useEffect } from "react";
+import React from "react";
 import { XAir } from "./XAir";
 import XAirAuxInChannel from "./XAirAuxInChannel";
 import { XAirContextProvider } from "./XAirContext";
@@ -15,18 +15,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type MixerProps = {
-  mixer: string;
+  xair: XAir;
 };
 
-export default function XAirMixer({ mixer }: MixerProps) {
+export default function XAirMixer({ xair }: MixerProps) {
   const classes = useStyles();
-  const xair = new XAir(mixer);
-
-  useEffect(() => {
-    return () => {
-      xair.close();
-    };
-  }, [xair]);
 
   return (
     <XAirContextProvider xair={xair}>

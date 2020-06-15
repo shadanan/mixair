@@ -4,9 +4,10 @@ import {
   CssBaseline,
   ThemeProvider,
 } from "@material-ui/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TopAppBar from "./TopAppBar";
 import { AppBarContextProvider, useAppBarContext } from "./TopAppBarContext";
+import { XAir } from "./XAir";
 import XAirMixer from "./XAirMixer";
 
 const theme = createMuiTheme({
@@ -27,11 +28,23 @@ function App() {
 }
 
 function HomeRouter() {
+  const [xair, setXair] = useState<XAir>();
   const { mixer } = useAppBarContext();
+
+  useEffect(() => {
+    if (mixer) {
+      const xair = new XAir(mixer);
+      setXair(xair);
+      return () => {
+        xair.close();
+      };
+    }
+  }, [mixer]);
+
   return (
     <Box>
       <TopAppBar />
-      {mixer ? <XAirMixer mixer={mixer} /> : null}
+      {xair ? <XAirMixer xair={xair} /> : null}
     </Box>
   );
 }

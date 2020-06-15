@@ -6,7 +6,8 @@ export type OscMessage = {
 export class XAir {
   xair: string;
   baseUrl: string;
-  client: WebSocket;
+  backoff = 100;
+  client!: WebSocket;
   subscriptions: {
     [address: string]: {
       [name: string]: (message: OscMessage) => void;
@@ -16,17 +17,33 @@ export class XAir {
   constructor(xair: string) {
     this.xair = xair;
     this.baseUrl = `/api/xairs/${this.xair}/addresses`;
-    this.client = new WebSocket(
-      `ws://${window.location.host}/ws/xairs/${this.xair}`
-    );
+    this.connect();
+  }
+
+  connect() {
+    const serverUrl = `ws://${window.location.host}/ws/xairs/${this.xair}`;
+    console.log(`Connecting to ${serverUrl}...`);
+    this.client = new WebSocket(serverUrl);
+    this.client.onopen = () => {
+      console.log(`Connected.`);
+      this.backoff = 100;
+    };
     this.client.onmessage = (resp) => {
       const message = JSON.parse(resp.data) as OscMessage;
       this.publish(message);
     };
+    this.client.onclose = (resp) => {
+      console.log(`Reconnecting in ${this.backoff / 1000} seconds...`);
+      setTimeout(this.connect.bind(this), this.backoff);
+      this.backoff = Math.min(this.backoff * 2, 10000);
+    };
+    return this.client;
   }
 
   close() {
+    this.client.onclose = null;
     this.client.close();
+    console.log("Disconnected.");
   }
 
   async get(address: string): Promise<OscMessage> {
