@@ -26,7 +26,7 @@ export class XAir {
     this.client = new WebSocket(serverUrl);
     this.client.onopen = () => {
       console.log(`Connected.`);
-      this.backoff = 100;
+      this.backoff = 250;
     };
     this.client.onmessage = (resp) => {
       const message = JSON.parse(resp.data) as OscMessage;
@@ -37,7 +37,6 @@ export class XAir {
       setTimeout(this.connect.bind(this), this.backoff);
       this.backoff = Math.min(this.backoff * 2, 10000);
     };
-    return this.client;
   }
 
   close() {
