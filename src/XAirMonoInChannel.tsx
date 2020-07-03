@@ -9,6 +9,7 @@ import XAirLabel from "./XAirLabel";
 import XAirMonoInMeter from "./XAirMonoInMeter";
 import XAirMuteButton from "./XAirMuteButton";
 import XAirSoloButton from "./XAirSoloButton";
+import XAirToggleButtonAdUsb from "./XAirToggleButtonAdUsb";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -59,7 +60,16 @@ export default function XAirMonoInChannel({
               <XAirSoloButton address={`/-stat/solosw/${channelName}`} />
             </Grid>
             <Grid item className={classes.flex}>
-              <XAirMonoInMeter address={"/meters/2"} channelId={channelId} />
+              <XAirMonoInMeter
+                meterAddress={"/meters/2"}
+                channelId={channelId}
+                adUsbAddress={`/ch/${channelName}/preamp/rtnsw`}
+              />
+            </Grid>
+            <Grid item>
+              <XAirToggleButtonAdUsb
+                address={`/ch/${channelName}/preamp/rtnsw`}
+              />
             </Grid>
             <Grid item>
               <ToggleButton

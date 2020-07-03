@@ -16,6 +16,7 @@ const MARKS: [number, string][] = [
 type Meter = {
   label: string;
   levels: number[];
+  primary?: boolean;
 };
 
 type MultiMeterProps = {
@@ -49,23 +50,31 @@ function normalize(level: number): number {
   return Math.max(Math.min(((level + 18432) * 100) / 18432, 100), 0);
 }
 
-function LevelLabel({ label }: { label: string }) {
+function LevelLabel({ label, primary }: { label: string; primary?: boolean }) {
   const classes = useStyles();
   return (
-    <Typography className={classes.label} variant="caption">
+    <Typography
+      className={classes.label}
+      variant="caption"
+      color={primary ? "secondary" : "textSecondary"}
+    >
       {label}
     </Typography>
   );
 }
 
-function LabelledIndicators({ label, levels }: Meter) {
+function LabelledIndicators({
+  meter: { label, levels, primary },
+}: {
+  meter: Meter;
+}) {
   const classes = useStyles();
   return (
     <div
       className={classes.labelledIndicator}
       style={{ height: 10 * levels.length + 2 }}
     >
-      <LevelLabel label={label} />
+      <LevelLabel label={label} primary={primary} />
       <div className={classes.level}>
         {levels.map((level, j) => (
           <LevelIndicator key={`level-${j}`} level={normalize(level)} />
@@ -79,9 +88,9 @@ export default function MultiMeter({ meters }: MultiMeterProps) {
   const classes = useStyles();
   return (
     <div>
-      {meters.map(({ label, levels }, i) => (
+      {meters.map((meter, i) => (
         <div key={`meter-${i}`}>
-          <LabelledIndicators label={label} levels={levels} />
+          <LabelledIndicators meter={meter} />
         </div>
       ))}
       <div className={classes.marks}>

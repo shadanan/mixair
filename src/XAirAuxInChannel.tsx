@@ -9,6 +9,7 @@ import XAirFader from "./XAirFader";
 import XAirLabel from "./XAirLabel";
 import XAirMuteButton from "./XAirMuteButton";
 import XAirSoloButton from "./XAirSoloButton";
+import XAirToggleButtonAdUsb from "./XAirToggleButtonAdUsb";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -49,6 +50,9 @@ export default function XAirAuxInChannel() {
             </Grid>
             <Grid item className={classes.flex}>
               <XAirAuxInMeter />
+            </Grid>
+            <Grid item>
+              <XAirToggleButtonAdUsb address="/rtn/aux/preamp/rtnsw" />
             </Grid>
             <Grid item>
               <ToggleButton

@@ -29,7 +29,7 @@ export function withTwoMeters() {
   return (
     <MultiMeter
       meters={[
-        { label: "A/D", levels: [-8000] },
+        { label: "A/D", levels: [-8000], primary: true },
         { label: "USB", levels: [-10000] },
       ]}
     ></MultiMeter>
@@ -41,7 +41,7 @@ export function withFourMeters() {
     <MultiMeter
       meters={[
         { label: "A/D", levels: [-6000, -8000] },
-        { label: "USB", levels: [-10000, -9000] },
+        { label: "USB", levels: [-10000, -9000], primary: true },
       ]}
     ></MultiMeter>
   );

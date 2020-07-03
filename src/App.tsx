@@ -1,8 +1,10 @@
 import {
   Box,
-  createMuiTheme,
   CssBaseline,
   ThemeProvider,
+  // TODO: Replace the following with createMuiTheme after resolution of
+  // https://github.com/mui-org/material-ui/issues/13394
+  unstable_createMuiStrictModeTheme as createMuiTheme,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import TopAppBar from "./TopAppBar";

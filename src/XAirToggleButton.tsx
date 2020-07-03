@@ -1,4 +1,4 @@
-import { makeStyles, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import React, { useEffect, useState } from "react";
@@ -68,7 +68,7 @@ export default function XAirToggleButton({
         updateToggled(toggled === ON ? OFF : ON);
       }}
     >
-      <Typography variant="button">{children}</Typography>
+      {children}
     </ToggleButton>
   );
 }
