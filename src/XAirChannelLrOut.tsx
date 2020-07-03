@@ -4,12 +4,11 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import React, { useEffect, useState } from "react";
 import { useAppBarContext } from "./TopAppBarContext";
-import XAirAuxInMeter from "./XAirAuxInMeter";
 import XAirFader from "./XAirFader";
 import XAirLabel from "./XAirLabel";
-import XAirMuteButton from "./XAirMuteButton";
-import XAirSoloButton from "./XAirSoloButton";
-import XAirToggleButtonAdUsb from "./XAirToggleButtonAdUsb";
+import XAirMeterStereoOut from "./XAirMeterStereoOut";
+import XAirToggleButtonMute from "./XAirToggleButtonMute";
+import XAirToggleButtonSolo from "./XAirToggleButtonSolo";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -23,7 +22,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function XAirAuxInChannel() {
+type XAirChannelProps = {
+  channelName: string;
+  nameAddress: string;
+  muteAddress: string;
+  soloAddress: string;
+  faderAddress: string;
+};
+
+export default function XAirLrOutChannel({
+  channelName,
+  nameAddress,
+  muteAddress,
+  soloAddress,
+  faderAddress,
+}: XAirChannelProps) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const { updateExpandables } = useAppBarContext();
@@ -38,21 +51,18 @@ export default function XAirAuxInChannel() {
     <Paper className={classes.paper}>
       <Grid container direction="column" alignItems="stretch" spacing={1}>
         <Grid item>
-          <XAirLabel prefix="Aux" address="/rtn/aux/config/name" />
+          <XAirLabel prefix={channelName} address={nameAddress} />
         </Grid>
         <Grid item>
           <Grid container direction="row" alignItems="center" spacing={1}>
             <Grid item>
-              <XAirMuteButton address="/rtn/aux/mix/on" />
+              <XAirToggleButtonMute address={muteAddress} />
             </Grid>
             <Grid item>
-              <XAirSoloButton address="/-stat/solosw/17" />
+              <XAirToggleButtonSolo address={soloAddress} />
             </Grid>
             <Grid item className={classes.flex}>
-              <XAirAuxInMeter />
-            </Grid>
-            <Grid item>
-              <XAirToggleButtonAdUsb address="/rtn/aux/preamp/rtnsw" />
+              <XAirMeterStereoOut address={"/meters/5"} channelId={6} />
             </Grid>
             <Grid item>
               <ToggleButton
@@ -70,22 +80,10 @@ export default function XAirAuxInChannel() {
             <Grid container direction="column" spacing={1}>
               <Grid item>
                 <XAirFader
-                  faderAddress="/rtn/aux/mix/fader"
+                  faderAddress={faderAddress}
                   labelAddress="/lr/config/name"
                   altLabelName="LR"
                 />
-                {Array.from({ length: 6 }, (_, i) => {
-                  const busId = i + 1;
-                  const busName = String(busId).padStart(2, "0");
-                  return (
-                    <XAirFader
-                      key={busId}
-                      faderAddress={`/rtn/aux/mix/${busName}/level`}
-                      labelAddress={`/bus/${busId}/config/name`}
-                      altLabelName={`Bus ${busId}`}
-                    />
-                  );
-                })}
               </Grid>
             </Grid>
           </Grid>

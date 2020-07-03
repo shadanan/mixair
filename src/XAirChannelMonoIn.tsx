@@ -6,10 +6,10 @@ import React, { useEffect, useState } from "react";
 import { useAppBarContext } from "./TopAppBarContext";
 import XAirFader from "./XAirFader";
 import XAirLabel from "./XAirLabel";
-import XAirMonoInMeter from "./XAirMonoInMeter";
-import XAirMuteButton from "./XAirMuteButton";
-import XAirSoloButton from "./XAirSoloButton";
+import XAirMeterMonoIn from "./XAirMeterMonoIn";
 import XAirToggleButtonAdUsb from "./XAirToggleButtonAdUsb";
+import XAirToggleButtonMute from "./XAirToggleButtonMute";
+import XAirToggleButtonSolo from "./XAirToggleButtonSolo";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -27,7 +27,7 @@ type XAirMonoInChannelProps = {
   channelId: number;
 };
 
-export default function XAirMonoInChannel({
+export default function XAirChannelMonoIn({
   channelId,
 }: XAirMonoInChannelProps) {
   const classes = useStyles();
@@ -54,13 +54,13 @@ export default function XAirMonoInChannel({
         <Grid item>
           <Grid container direction="row" alignItems="center" spacing={1}>
             <Grid item>
-              <XAirMuteButton address={`/ch/${channelName}/mix/on`} />
+              <XAirToggleButtonMute address={`/ch/${channelName}/mix/on`} />
             </Grid>
             <Grid item>
-              <XAirSoloButton address={`/-stat/solosw/${channelName}`} />
+              <XAirToggleButtonSolo address={`/-stat/solosw/${channelName}`} />
             </Grid>
             <Grid item className={classes.flex}>
-              <XAirMonoInMeter
+              <XAirMeterMonoIn
                 meterAddress={"/meters/2"}
                 channelId={channelId}
                 adUsbAddress={`/ch/${channelName}/preamp/rtnsw`}

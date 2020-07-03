@@ -6,7 +6,7 @@ type XAirSoloButtonProps = {
   address: string;
 };
 
-export default function XAirSoloButton({ address }: XAirSoloButtonProps) {
+export default function XAirToggleButtonSolo({ address }: XAirSoloButtonProps) {
   return (
     <XAirToggleButton address={address} color={yellow[500]}>
       S

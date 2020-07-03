@@ -6,7 +6,7 @@ type XAirMuteButtonProps = {
   address: string;
 };
 
-export default function XAirMuteButton({ address }: XAirMuteButtonProps) {
+export default function XAirToggleButtonMute({ address }: XAirMuteButtonProps) {
   return (
     <XAirToggleButton address={address} color={red[500]} invert={true}>
       M

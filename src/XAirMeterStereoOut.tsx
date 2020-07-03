@@ -7,7 +7,7 @@ type XAirStereoOutMeterProps = {
   channelId: number;
 };
 
-export default function XAirStereoOutMeter({
+export default function XAirMeterStereoOut({
   address,
   channelId,
 }: XAirStereoOutMeterProps) {

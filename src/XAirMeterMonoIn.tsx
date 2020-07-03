@@ -8,7 +8,7 @@ type XAirMonoInMeterProps = {
   adUsbAddress: string;
 };
 
-export default function XAirMonoInMeter({
+export default function XAirMeterMonoIn({
   meterAddress,
   channelId,
   adUsbAddress,
