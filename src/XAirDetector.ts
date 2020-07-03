@@ -29,20 +29,12 @@ export class XAirDetector {
       setTimeout(this.connect.bind(this), this.backoff);
       this.backoff = Math.min(this.backoff * 2, 10000);
     };
-    this.get();
   }
 
   close() {
     this.client.onclose = null;
     this.client.close();
     console.log("Unsubscribed from automatic device detection notifications.");
-  }
-
-  async get(): Promise<XAirMessage> {
-    const resp = await fetch(`/api/xairs`);
-    const message = (await resp.json()) as XAirMessage;
-    this.publish(message);
-    return message;
   }
 
   publish(message: XAirMessage) {
