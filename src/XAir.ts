@@ -25,7 +25,7 @@ export class XAir {
     console.log(`Connecting to ${serverUrl}...`);
     this.client = new WebSocket(serverUrl);
     this.client.onopen = () => {
-      console.log(`Connected.`);
+      console.log(`Subscribed to ${this.xair} notifications.`);
       this.backoff = 250;
     };
     this.client.onmessage = (resp) => {
@@ -42,7 +42,7 @@ export class XAir {
   close() {
     this.client.onclose = null;
     this.client.close();
-    console.log("Disconnected.");
+    console.log(`Unsubscribed from ${this.xair} notifications.`);
   }
 
   async get(address: string): Promise<OscMessage> {
@@ -72,7 +72,7 @@ export class XAir {
   }
 
   subscribe(address: string, callback: (message: OscMessage) => void) {
-    const name = "" + Math.random().toString(36).substring(2);
+    const name = Math.random().toString(36).substring(2);
     if (!(address in this.subscriptions)) {
       this.subscriptions[address] = {};
     }

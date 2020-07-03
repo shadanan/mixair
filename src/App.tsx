@@ -28,16 +28,18 @@ function App() {
 }
 
 function HomeRouter() {
-  const [xair, setXair] = useState<XAir>();
+  const [xair, setXAir] = useState<XAir>();
   const { mixer } = useAppBarContext();
 
   useEffect(() => {
     if (mixer) {
       const xair = new XAir(mixer);
-      setXair(xair);
+      setXAir(xair);
       return () => {
         xair.close();
       };
+    } else {
+      setXAir(undefined);
     }
   }, [mixer]);
 

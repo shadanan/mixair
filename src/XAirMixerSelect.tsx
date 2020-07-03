@@ -7,6 +7,7 @@ import {
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useAppBarContext } from "./TopAppBarContext";
+import { XAirDetector } from "./XAirDetector";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -18,22 +19,24 @@ const useStyles = makeStyles((theme) => ({
 export default function XAirMixerSelect() {
   const classes = useStyles();
   const { mixer, setMixer } = useAppBarContext();
-  const [mixers, setMixers] = useState([]);
+  const [mixers, setMixers] = useState<string[]>([]);
 
   useEffect(() => {
-    async function fetchMixers() {
-      const resp = await fetch(`/api/xairs`);
-      const json = await resp.json();
-      setMixers(json.xair);
-    }
-    fetchMixers();
-  }, []);
+    const detector = new XAirDetector((message) => {
+      setMixers(message.xairs);
+    });
+    return () => {
+      detector.close();
+    };
+  }, [setMixer]);
 
   useEffect(() => {
-    if (mixers.length === 1) {
+    if (mixers.length === 0) {
+      setMixer("");
+    } else if (!mixer) {
       setMixer(mixers[0]);
     }
-  }, [mixers, setMixer]);
+  }, [mixer, mixers, setMixer]);
 
   return (
     <FormControl className={classes.formControl}>
@@ -43,14 +46,21 @@ export default function XAirMixerSelect() {
       <Select
         id="mixer-select"
         labelId="mixer-select-label"
-        value={mixer}
+        displayEmpty
+        value={mixers.includes(mixer) ? mixer : ""}
         onChange={(event) => setMixer(event.target.value as string)}
       >
-        {mixers.map((mixer) => (
-          <MenuItem key={mixer} value={mixer}>
-            {mixer}
+        {mixers.length === 0 ? (
+          <MenuItem value="">
+            <em>None</em>
           </MenuItem>
-        ))}
+        ) : (
+          mixers.map((mixer) => (
+            <MenuItem key={mixer} value={mixer}>
+              {mixer}
+            </MenuItem>
+          ))
+        )}
       </Select>
     </FormControl>
   );
