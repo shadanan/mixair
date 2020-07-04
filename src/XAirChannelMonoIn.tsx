@@ -5,6 +5,7 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import React, { useEffect, useState } from "react";
 import { useAppBarContext } from "./TopAppBarContext";
 import XAirFader from "./XAirFader";
+import XAirGain from "./XAirGain";
 import XAirLabel from "./XAirLabel";
 import XAirMeterMonoIn from "./XAirMeterMonoIn";
 import XAirToggleButtonAdUsb from "./XAirToggleButtonAdUsb";
@@ -91,6 +92,7 @@ export default function XAirChannelMonoIn({
                   labelAddress="/lr/config/name"
                   altLabelName="LR"
                 />
+                <XAirGain gainAddress={`/headamp/${channelName}/gain`} />
                 {Array.from({ length: 6 }, (_, i) => {
                   const busId = i + 1;
                   const busName = String(busId).padStart(2, "0");
