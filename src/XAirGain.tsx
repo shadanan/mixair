@@ -1,13 +1,6 @@
-import {
-  Grid,
-  Input,
-  makeStyles,
-  Paper,
-  Slider,
-  Tooltip,
-  Typography,
-} from "@material-ui/core";
-import React, { ReactElement, useEffect, useState } from "react";
+import { Grid, makeStyles, Typography } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import Fader from "./Fader";
 import { useXAirContext } from "./XAirContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,34 +20,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const marks = ["-12", "0", "12", "24", "36", "48", "60"].map((x) => ({
-  value: levelToUnitInterval(x),
-  label: x,
-}));
-
-function levelToUnitInterval(level: string): number {
+function toUnitInterval(level: string): number {
   return (parseFloat(level) + 12) / 72;
 }
 
-function unitIntervalToLevel(
-  unitInterval: number,
-  fractionDigits: number
-): string {
+function toLevel(unitInterval: number, fractionDigits: number): string {
   return (72 * unitInterval - 12).toFixed(fractionDigits);
-}
-
-type ValueLabelProps = {
-  open: boolean;
-  value: number;
-  children: ReactElement;
-};
-
-function ValueLabelComponent({ open, value, children }: ValueLabelProps) {
-  return (
-    <Tooltip open={open} enterTouchDelay={0} title={value} arrow>
-      {children}
-    </Tooltip>
-  );
 }
 
 type GainProps = {
@@ -64,10 +35,9 @@ type GainProps = {
 export default function XAirGain({ gainAddress }: GainProps) {
   const classes = useStyles();
   const [level, setLevel] = useState(0);
-  const [levelText, setLevelText] = useState<string | null>(null);
   const xair = useXAirContext();
 
-  async function updateLevel(level: number) {
+  function updateLevel(level: number) {
     xair.patch({
       address: gainAddress,
       arguments: [level],
@@ -91,42 +61,13 @@ export default function XAirGain({ gainAddress }: GainProps) {
         <Typography variant="caption">Gain</Typography>
       </Grid>
       <Grid item className={classes.flex}>
-        <Paper className={classes.well}>
-          <Slider
-            className={classes.slider}
-            getAriaValueText={(level) => unitIntervalToLevel(level, 1)}
-            valueLabelFormat={(level) => unitIntervalToLevel(level, 4)}
-            ValueLabelComponent={ValueLabelComponent}
-            value={level}
-            onChange={(_, value) => {
-              if (typeof value === "number") {
-                updateLevel(value);
-              }
-            }}
-            aria-label="custom thumb label"
-            marks={marks}
-            min={0}
-            step={0.001}
-            max={1}
-          />
-        </Paper>
-      </Grid>
-      <Grid item>
-        <Input
-          className={classes.input}
-          value={levelText ?? unitIntervalToLevel(level, 1)}
-          onBlur={() => setLevelText(null)}
-          onKeyPress={(event) => {
-            if (event.key === "Enter") {
-              setLevelText(null);
-            }
-          }}
-          onChange={(event) => {
-            setLevelText(event.target.value);
-            updateLevel(levelToUnitInterval(event.target.value));
-          }}
-          margin="dense"
-        ></Input>
+        <Fader
+          level={level}
+          setLevel={updateLevel}
+          labeledLevels={["-12", "0", "12", "24", "36", "48", "60"]}
+          toLevel={toLevel}
+          toUnitInterval={toUnitInterval}
+        />
       </Grid>
     </Grid>
   );
