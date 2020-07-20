@@ -8,6 +8,7 @@ export class XAir {
   baseUrl: string;
   backoff = 100;
   client!: WebSocket;
+  cache: { [address: string]: OscMessage } = {};
   subscriptions: {
     [address: string]: {
       [name: string]: (message: OscMessage) => void;
@@ -25,6 +26,7 @@ export class XAir {
     console.log(`Connecting to ${serverUrl}...`);
     this.client = new WebSocket(serverUrl);
     this.client.onopen = () => {
+      this.cache = {};
       console.log(`Subscribed to ${this.xair} notifications.`);
       this.backoff = 250;
     };
@@ -46,8 +48,12 @@ export class XAir {
   }
 
   async get(address: string): Promise<OscMessage> {
-    const resp = await fetch(`${this.baseUrl}${address}`);
-    const message = (await resp.json()) as OscMessage;
+    if (!(address in this.cache)) {
+      const resp = await fetch(`${this.baseUrl}${address}`);
+      const message = (await resp.json()) as OscMessage;
+      this.cache[address] = message;
+    }
+    const message = this.cache[address];
     this.publish(message);
     return message;
   }
@@ -63,6 +69,7 @@ export class XAir {
   }
 
   publish(message: OscMessage) {
+    this.cache[message.address] = message;
     if (message.address in this.subscriptions) {
       for (var name in this.subscriptions[message.address]) {
         const callback = this.subscriptions[message.address][name];
