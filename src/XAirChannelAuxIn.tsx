@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { useAppBarContext } from "./TopAppBarContext";
 import XAirLabel from "./XAirLabel";
 import XAirLabeledFader from "./XAirLabeledFader";
-import XAirMeterAuxIn from "./XAirMeterAuxIn";
+import XAirMeterInAux from "./XAirMeterInAux";
 import XAirToggleButtonAdUsb from "./XAirToggleButtonAdUsb";
 import XAirToggleButtonMute from "./XAirToggleButtonMute";
 import XAirToggleButtonSolo from "./XAirToggleButtonSolo";
@@ -49,7 +49,7 @@ export default function XAirChannelAuxIn() {
               <XAirToggleButtonSolo address="/-stat/solosw/17" />
             </Grid>
             <Grid item className={classes.flex}>
-              <XAirMeterAuxIn />
+              <XAirMeterInAux />
             </Grid>
             <Grid item>
               <XAirToggleButtonAdUsb address="/rtn/aux/preamp/rtnsw" />

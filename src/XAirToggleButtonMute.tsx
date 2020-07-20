@@ -2,11 +2,13 @@ import { red } from "@material-ui/core/colors";
 import React from "react";
 import XAirToggleButton from "./XAirToggleButton";
 
-type XAirMuteButtonProps = {
+type ToggleButtonMuteProps = {
   address: string;
 };
 
-export default function XAirToggleButtonMute({ address }: XAirMuteButtonProps) {
+export default function XAirToggleButtonMute({
+  address,
+}: ToggleButtonMuteProps) {
   return (
     <XAirToggleButton address={address} color={red[500]} invert={true}>
       M

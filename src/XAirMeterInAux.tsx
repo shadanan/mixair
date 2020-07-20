@@ -6,7 +6,7 @@ const METER_ADDRESS = "/meters/2";
 const AD_USB_ADDRESS = "/rtn/aux/preamp/rtnsw";
 const CHANNEL_OFFSET = 16;
 
-export default function XAirMeterAuxIn() {
+export default function XAirMeterInAux() {
   const [levels, setLevels] = useState([-32768, -32768, -32768, -32768]);
   const [isUsb, setIsUsb] = useState(false);
   const xair = useXAirContext();

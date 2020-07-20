@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { useAppBarContext } from "./TopAppBarContext";
 import XAirFader from "./XAirFader";
 import XAirLabel from "./XAirLabel";
-import XAirMeterOut from "./XAirMeterStereoOut";
+import XAirMeterOut from "./XAirMeterOut";
 import XAirToggleButtonMute from "./XAirToggleButtonMute";
 import XAirToggleButtonSolo from "./XAirToggleButtonSolo";
 
@@ -22,17 +22,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type XAirChannelBusOutProps = {
-  busId: number;
+type ChannelOutProps = {
+  channelName: string;
+  configAddress: string;
+  muteAddress: string;
+  soloAddress: string;
+  faderAddress: string;
+  meterIds: number[];
 };
 
-export default function XAirChannelBusOut({ busId }: XAirChannelBusOutProps) {
-  const channelName = `Bus ${busId}`;
-  const configAddress = `/bus/${busId}/config`;
-  const muteAddress = `/bus/${busId}/mix/on`;
-  const soloAddress = `/-stat/solosw/${busId + 39}`;
-  const faderAddress = `/bus/${busId}/mix/fader`;
-
+export default function XAirChannelOut({
+  channelName,
+  configAddress,
+  muteAddress,
+  soloAddress,
+  faderAddress,
+  meterIds,
+}: ChannelOutProps) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const { updateExpandables } = useAppBarContext();
@@ -60,7 +66,7 @@ export default function XAirChannelBusOut({ busId }: XAirChannelBusOutProps) {
             <Grid item className={classes.flex}>
               <XAirMeterOut
                 address={"/meters/5"}
-                channelIds={[6]}
+                channelIds={meterIds}
                 label={channelName}
               />
             </Grid>

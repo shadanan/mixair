@@ -2,17 +2,17 @@ import React, { useEffect, useState } from "react";
 import MultiMeter from "./MultiMeter";
 import { useXAirContext } from "./XAirContext";
 
-type XAirMeterMonoInProps = {
+type MeterInMonoProps = {
   meterAddress: string;
   channelId: number;
   adUsbAddress: string;
 };
 
-export default function XAirMeterMonoIn({
+export default function XAirMeterInMono({
   meterAddress,
   channelId,
   adUsbAddress,
-}: XAirMeterMonoInProps) {
+}: MeterInMonoProps) {
   const [levels, setLevels] = useState([-32768, -32768]);
   const [isUsb, setIsUsb] = useState(false);
   const xair = useXAirContext();

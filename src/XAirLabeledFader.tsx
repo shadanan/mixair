@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type XAirLabeledProps = {
+type LabeledFaderProps = {
   faderAddress: string;
   configAddress: string;
   altLabelName: string;
@@ -33,7 +33,7 @@ export default function XAirLabeledFader({
   faderAddress,
   configAddress,
   altLabelName,
-}: XAirLabeledProps) {
+}: LabeledFaderProps) {
   const classes = useStyles();
 
   return (

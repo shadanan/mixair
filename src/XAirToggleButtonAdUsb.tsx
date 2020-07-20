@@ -3,13 +3,13 @@ import UsbIcon from "@material-ui/icons/Usb";
 import React from "react";
 import XAirToggleButton from "./XAirToggleButton";
 
-type XAirMuteButtonProps = {
+type ToggleButtonAdUsbProps = {
   address: string;
 };
 
 export default function XAirToggleButtonAdUsb({
   address,
-}: XAirMuteButtonProps) {
+}: ToggleButtonAdUsbProps) {
   return (
     <XAirToggleButton address={address} color={green[500]}>
       <UsbIcon />

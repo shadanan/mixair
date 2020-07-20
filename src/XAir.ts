@@ -79,6 +79,7 @@ export class XAir {
   }
 
   subscribe(address: string, callback: (message: OscMessage) => void) {
+    console.log(address);
     const name = Math.random().toString(36).substring(2);
     if (!(address in this.subscriptions)) {
       this.subscriptions[address] = {};

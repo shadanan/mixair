@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import MultiMeter from "./MultiMeter";
 import { useXAirContext } from "./XAirContext";
 
-type XAirMeterStereoOutProps = {
+type MeterOutProps = {
   address: string;
   channelIds: number[];
   label: string;
@@ -12,8 +12,10 @@ export default function XAirMeterOut({
   address,
   channelIds,
   label,
-}: XAirMeterStereoOutProps) {
-  const [levels, setLevels] = useState([-32768, -32768]);
+}: MeterOutProps) {
+  const [levels, setLevels] = useState(
+    Array.from({ length: channelIds.length }, () => -32768)
+  );
   const xair = useXAirContext();
 
   useEffect(() => {

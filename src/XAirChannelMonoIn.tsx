@@ -7,7 +7,7 @@ import { useAppBarContext } from "./TopAppBarContext";
 import XAirGain from "./XAirGain";
 import XAirLabel from "./XAirLabel";
 import XAirLabeledFader from "./XAirLabeledFader";
-import XAirMeterMonoIn from "./XAirMeterMonoIn";
+import XAirMeterInMono from "./XAirMeterInMono";
 import XAirToggleButtonAdUsb from "./XAirToggleButtonAdUsb";
 import XAirToggleButtonMute from "./XAirToggleButtonMute";
 import XAirToggleButtonSolo from "./XAirToggleButtonSolo";
@@ -24,13 +24,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type XAirChannelMonoInProps = {
+type ChannelMonoInProps = {
   channelId: number;
 };
 
-export default function XAirChannelMonoIn({
-  channelId,
-}: XAirChannelMonoInProps) {
+export default function XAirChannelMonoIn({ channelId }: ChannelMonoInProps) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const { updateExpandables } = useAppBarContext();
@@ -48,8 +46,8 @@ export default function XAirChannelMonoIn({
       <Grid container direction="column" alignItems="stretch" spacing={1}>
         <Grid item>
           <XAirLabel
-            prefix={channelName}
             configAddress={`/ch/${channelName}/config`}
+            prefix={channelName}
           />
         </Grid>
         <Grid item>
@@ -61,7 +59,7 @@ export default function XAirChannelMonoIn({
               <XAirToggleButtonSolo address={`/-stat/solosw/${channelName}`} />
             </Grid>
             <Grid item className={classes.flex}>
-              <XAirMeterMonoIn
+              <XAirMeterInMono
                 meterAddress={"/meters/2"}
                 channelId={channelId}
                 adUsbAddress={`/ch/${channelName}/preamp/rtnsw`}

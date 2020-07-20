@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   selected: () => ({}),
 }));
 
-type XAirToggleButtonProps = {
+type ToggleButtonProps = {
   address: string;
   children: React.ReactNode;
   color?: string;
@@ -31,7 +31,7 @@ export default function XAirToggleButton({
   children,
   color = green[500],
   invert = false,
-}: XAirToggleButtonProps) {
+}: ToggleButtonProps) {
   const classes = useStyles({ color });
   const [toggled, setToggled] = useState(0);
   const xair = useXAirContext();
