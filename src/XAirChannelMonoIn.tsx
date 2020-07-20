@@ -4,9 +4,9 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import React, { useEffect, useState } from "react";
 import { useAppBarContext } from "./TopAppBarContext";
-import XAirFader from "./XAirFader";
 import XAirGain from "./XAirGain";
 import XAirLabel from "./XAirLabel";
+import XAirLabeledFader from "./XAirLabeledFader";
 import XAirMeterMonoIn from "./XAirMeterMonoIn";
 import XAirToggleButtonAdUsb from "./XAirToggleButtonAdUsb";
 import XAirToggleButtonMute from "./XAirToggleButtonMute";
@@ -24,13 +24,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type XAirMonoInChannelProps = {
+type XAirChannelMonoInProps = {
   channelId: number;
 };
 
 export default function XAirChannelMonoIn({
   channelId,
-}: XAirMonoInChannelProps) {
+}: XAirChannelMonoInProps) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const { updateExpandables } = useAppBarContext();
@@ -87,7 +87,7 @@ export default function XAirChannelMonoIn({
           <Grid item className={classes.channelConfig}>
             <Grid container direction="column" spacing={1}>
               <Grid item>
-                <XAirFader
+                <XAirLabeledFader
                   faderAddress={`/ch/${channelName}/mix/fader`}
                   configAddress="/lr/config"
                   altLabelName="LR"
@@ -97,7 +97,7 @@ export default function XAirChannelMonoIn({
                   const busId = i + 1;
                   const busName = String(busId).padStart(2, "0");
                   return (
-                    <XAirFader
+                    <XAirLabeledFader
                       key={busId}
                       faderAddress={`/ch/${channelName}/mix/${busName}/level`}
                       configAddress={`/bus/${busId}/config`}

@@ -24,7 +24,7 @@ type MultiMeterProps = {
 };
 
 const useStyles = makeStyles((theme) => {
-  const labelWidth = theme.spacing(5);
+  const labelWidth = theme.spacing(6);
   return {
     labelledIndicator: {
       display: "flex",

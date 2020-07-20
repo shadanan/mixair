@@ -2,30 +2,29 @@ import React, { useEffect, useState } from "react";
 import MultiMeter from "./MultiMeter";
 import { useXAirContext } from "./XAirContext";
 
-type XAirStereoOutMeterProps = {
+type XAirMeterStereoOutProps = {
   address: string;
-  channelId: number;
+  channelIds: number[];
+  label: string;
 };
 
-export default function XAirMeterStereoOut({
+export default function XAirMeterOut({
   address,
-  channelId,
-}: XAirStereoOutMeterProps) {
+  channelIds,
+  label,
+}: XAirMeterStereoOutProps) {
   const [levels, setLevels] = useState([-32768, -32768]);
   const xair = useXAirContext();
 
   useEffect(() => {
     const name = xair.subscribe(address, (message) => {
-      setLevels([
-        message.arguments[channelId] as number,
-        message.arguments[channelId + 1] as number,
-      ]);
+      setLevels(channelIds.map((id) => message.arguments[id] as number));
     });
 
     return () => {
       xair.unsubscribe(address, name);
     };
-  }, [xair, address, channelId]);
+  }, [xair, address, channelIds]);
 
-  return <MultiMeter meters={[{ label: "Main", levels }]} />;
+  return <MultiMeter meters={[{ label, levels }]} />;
 }

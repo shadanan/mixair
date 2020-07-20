@@ -22,21 +22,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type XAirChannelLrOutProps = {
-  channelName: string;
-  configAddress: string;
-  muteAddress: string;
-  soloAddress: string;
-  faderAddress: string;
+type XAirChannelBusOutProps = {
+  busId: number;
 };
 
-export default function XAirChannelLrOut({
-  channelName,
-  configAddress,
-  muteAddress,
-  soloAddress,
-  faderAddress,
-}: XAirChannelLrOutProps) {
+export default function XAirChannelBusOut({ busId }: XAirChannelBusOutProps) {
+  const channelName = `Bus ${busId}`;
+  const configAddress = `/bus/${busId}/config`;
+  const muteAddress = `/bus/${busId}/mix/on`;
+  const soloAddress = `/-stat/solosw/${busId + 39}`;
+  const faderAddress = `/bus/${busId}/mix/fader`;
+
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const { updateExpandables } = useAppBarContext();
@@ -64,7 +60,7 @@ export default function XAirChannelLrOut({
             <Grid item className={classes.flex}>
               <XAirMeterOut
                 address={"/meters/5"}
-                channelIds={[6, 7]}
+                channelIds={[6]}
                 label={channelName}
               />
             </Grid>

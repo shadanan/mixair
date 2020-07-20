@@ -4,8 +4,8 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import React, { useEffect, useState } from "react";
 import { useAppBarContext } from "./TopAppBarContext";
-import XAirFader from "./XAirFader";
 import XAirLabel from "./XAirLabel";
+import XAirLabeledFader from "./XAirLabeledFader";
 import XAirMeterAuxIn from "./XAirMeterAuxIn";
 import XAirToggleButtonAdUsb from "./XAirToggleButtonAdUsb";
 import XAirToggleButtonMute from "./XAirToggleButtonMute";
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function XAirChannelLrOut() {
+export default function XAirChannelAuxIn() {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const { updateExpandables } = useAppBarContext();
@@ -69,7 +69,7 @@ export default function XAirChannelLrOut() {
           <Grid item className={classes.channelConfig}>
             <Grid container direction="column" spacing={1}>
               <Grid item>
-                <XAirFader
+                <XAirLabeledFader
                   faderAddress="/rtn/aux/mix/fader"
                   configAddress="/lr/config"
                   altLabelName="LR"
@@ -78,7 +78,7 @@ export default function XAirChannelLrOut() {
                   const busId = i + 1;
                   const busName = String(busId).padStart(2, "0");
                   return (
-                    <XAirFader
+                    <XAirLabeledFader
                       key={busId}
                       faderAddress={`/rtn/aux/mix/${busName}/level`}
                       configAddress={`/bus/${busId}/config`}
