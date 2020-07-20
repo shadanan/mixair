@@ -19,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
   input: {
     width: 42,
   },
+  label: {
+    textAlign: "right",
+  },
 }));
 
 function toUnitInterval(level: string): number {
@@ -38,13 +41,13 @@ function toLevel(unitInterval: number, fractionDigits: number): string {
 
 type FaderProps = {
   faderAddress: string;
-  labelAddress: string;
+  configAddress: string;
   altLabelName: string;
 };
 
 export default function XAirFader({
   faderAddress,
-  labelAddress,
+  configAddress,
   altLabelName,
 }: FaderProps) {
   const classes = useStyles();
@@ -71,8 +74,8 @@ export default function XAirFader({
 
   return (
     <Grid container alignItems="center" spacing={2}>
-      <Grid item>
-        <XAirLabel address={labelAddress} alt={altLabelName} />
+      <Grid item className={classes.label} xs={2}>
+        <XAirLabel configAddress={configAddress} alt={altLabelName} />
       </Grid>
       <Grid item className={classes.flex}>
         <Fader

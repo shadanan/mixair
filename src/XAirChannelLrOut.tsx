@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 type XAirChannelProps = {
   channelName: string;
-  nameAddress: string;
+  configAddress: string;
   muteAddress: string;
   soloAddress: string;
   faderAddress: string;
@@ -32,7 +32,7 @@ type XAirChannelProps = {
 
 export default function XAirLrOutChannel({
   channelName,
-  nameAddress,
+  configAddress,
   muteAddress,
   soloAddress,
   faderAddress,
@@ -51,7 +51,7 @@ export default function XAirLrOutChannel({
     <Paper className={classes.paper}>
       <Grid container direction="column" alignItems="stretch" spacing={1}>
         <Grid item>
-          <XAirLabel prefix={channelName} address={nameAddress} />
+          <XAirLabel prefix={channelName} configAddress={configAddress} />
         </Grid>
         <Grid item>
           <Grid container direction="row" alignItems="center" spacing={1}>
@@ -81,7 +81,7 @@ export default function XAirLrOutChannel({
               <Grid item>
                 <XAirFader
                   faderAddress={faderAddress}
-                  labelAddress="/lr/config/name"
+                  configAddress="/lr/config"
                   altLabelName="LR"
                 />
               </Grid>

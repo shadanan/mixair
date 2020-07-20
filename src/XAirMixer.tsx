@@ -27,7 +27,7 @@ export default function XAirMixer({ xair }: MixerProps) {
         <Grid item xs={12} md={6} lg={4} xl={3}>
           <XAirLrOutChannel
             channelName={"LR"}
-            nameAddress={"/lr/config/name"}
+            configAddress={"/lr/config"}
             muteAddress={"/lr/mix/on"}
             soloAddress={"/-stat/solosw/50"}
             faderAddress={"/lr/mix/fader"}

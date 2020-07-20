@@ -38,7 +38,7 @@ export default function XAirChannelLrOut() {
     <Paper className={classes.paper}>
       <Grid container direction="column" alignItems="stretch" spacing={1}>
         <Grid item>
-          <XAirLabel prefix="Aux" address="/rtn/aux/config/name" />
+          <XAirLabel prefix="Aux" configAddress="/rtn/aux/config" />
         </Grid>
         <Grid item>
           <Grid container direction="row" alignItems="center" spacing={1}>
@@ -71,7 +71,7 @@ export default function XAirChannelLrOut() {
               <Grid item>
                 <XAirFader
                   faderAddress="/rtn/aux/mix/fader"
-                  labelAddress="/lr/config/name"
+                  configAddress="/lr/config"
                   altLabelName="LR"
                 />
                 {Array.from({ length: 6 }, (_, i) => {
@@ -81,7 +81,7 @@ export default function XAirChannelLrOut() {
                     <XAirFader
                       key={busId}
                       faderAddress={`/rtn/aux/mix/${busName}/level`}
-                      labelAddress={`/bus/${busId}/config/name`}
+                      configAddress={`/bus/${busId}/config`}
                       altLabelName={`Bus ${busId}`}
                     />
                   );

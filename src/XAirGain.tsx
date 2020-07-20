@@ -1,5 +1,6 @@
-import { Grid, makeStyles, Typography } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import ChipLabel from "./ChipLabel";
 import Fader from "./Fader";
 import { useXAirContext } from "./XAirContext";
 
@@ -17,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
   },
   input: {
     width: 42,
+  },
+  label: {
+    textAlign: "right",
   },
 }));
 
@@ -57,8 +61,8 @@ export default function XAirGain({ gainAddress }: GainProps) {
 
   return (
     <Grid container alignItems="center" spacing={2}>
-      <Grid item>
-        <Typography variant="caption">Gain</Typography>
+      <Grid item className={classes.label} xs={2}>
+        <ChipLabel label="Gain" color={0} />
       </Grid>
       <Grid item className={classes.flex}>
         <Fader

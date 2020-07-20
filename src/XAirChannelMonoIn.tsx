@@ -49,7 +49,7 @@ export default function XAirChannelMonoIn({
         <Grid item>
           <XAirLabel
             prefix={channelName}
-            address={`/ch/${channelName}/config/name`}
+            configAddress={`/ch/${channelName}/config`}
           />
         </Grid>
         <Grid item>
@@ -89,7 +89,7 @@ export default function XAirChannelMonoIn({
               <Grid item>
                 <XAirFader
                   faderAddress={`/ch/${channelName}/mix/fader`}
-                  labelAddress="/lr/config/name"
+                  configAddress="/lr/config"
                   altLabelName="LR"
                 />
                 <XAirGain gainAddress={`/headamp/${channelName}/gain`} />
@@ -100,7 +100,7 @@ export default function XAirChannelMonoIn({
                     <XAirFader
                       key={busId}
                       faderAddress={`/ch/${channelName}/mix/${busName}/level`}
-                      labelAddress={`/bus/${busId}/config/name`}
+                      configAddress={`/bus/${busId}/config`}
                       altLabelName={`Bus ${busId}`}
                     />
                   );
