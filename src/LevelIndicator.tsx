@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function LevelIndicator({ level }: LevelIndicatorProps) {
+const LevelIndicator = React.memo(({ level }: LevelIndicatorProps) => {
   const classes = useStyles();
   return (
     <div className={classes.activeBar}>
@@ -32,4 +32,6 @@ export default function LevelIndicator({ level }: LevelIndicatorProps) {
       ></div>
     </div>
   );
-}
+});
+
+export default LevelIndicator;

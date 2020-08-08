@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import MultiMeter from "./MultiMeter";
-import { useXAirContext } from "./XAirContext";
+import React from "react";
+import XAirMultiMeter from "./XAirMultiMeter";
 
 type MeterOutProps = {
   address: string;
@@ -13,20 +12,5 @@ export default function XAirMeterOut({
   channelIds,
   label,
 }: MeterOutProps) {
-  const [levels, setLevels] = useState(
-    Array.from({ length: channelIds.length }, () => -32768)
-  );
-  const xair = useXAirContext();
-
-  useEffect(() => {
-    const name = xair.subscribe(address, (message) => {
-      setLevels(channelIds.map((id) => message.arguments[id] as number));
-    });
-
-    return () => {
-      xair.unsubscribe(address, name);
-    };
-  }, [xair, address, channelIds]);
-
-  return <MultiMeter meters={[{ label, levels }]} />;
+  return <XAirMultiMeter meters={[{ label, address, indices: channelIds }]} />;
 }

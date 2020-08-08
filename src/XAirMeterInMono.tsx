@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import MultiMeter from "./MultiMeter";
 import { useXAirContext } from "./XAirContext";
+import XAirMultiMeter from "./XAirMultiMeter";
 
 type MeterInMonoProps = {
   meterAddress: string;
@@ -13,18 +13,10 @@ export default function XAirMeterInMono({
   channelId,
   adUsbAddress,
 }: MeterInMonoProps) {
-  const [levels, setLevels] = useState([-32768, -32768]);
   const [isUsb, setIsUsb] = useState(false);
   const xair = useXAirContext();
 
   useEffect(() => {
-    const meterName = xair.subscribe(meterAddress, (message) => {
-      setLevels([
-        message.arguments[channelId] as number,
-        message.arguments[channelId + 18] as number,
-      ]);
-    });
-
     const adUsbName = xair.subscribe(adUsbAddress, (message) => {
       setIsUsb(message.arguments[0] === 1);
     });
@@ -32,17 +24,17 @@ export default function XAirMeterInMono({
     xair.get(adUsbAddress);
 
     return () => {
-      xair.unsubscribe(meterAddress, meterName);
       xair.unsubscribe(adUsbAddress, adUsbName);
     };
-  }, [xair, meterAddress, channelId, adUsbAddress]);
+  }, [xair, channelId, adUsbAddress]);
 
   return (
-    <MultiMeter
+    <XAirMultiMeter
       meters={[
-        { label: "A/D", levels: [levels[0]], primary: !isUsb },
-        { label: "USB", levels: [levels[1]], primary: isUsb },
+        { label: "A/D", address: meterAddress, indices: [channelId] },
+        { label: "USB", address: meterAddress, indices: [channelId + 18] },
       ]}
+      primary={isUsb ? 1 : 0}
     />
   );
 }

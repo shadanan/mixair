@@ -1,6 +1,6 @@
 export type OscMessage = {
   address: string;
-  arguments: [number | string];
+  arguments: (number | string)[];
 };
 
 export class XAir {
@@ -79,7 +79,6 @@ export class XAir {
   }
 
   subscribe(address: string, callback: (message: OscMessage) => void) {
-    console.log(address);
     const name = Math.random().toString(36).substring(2);
     if (!(address in this.subscriptions)) {
       this.subscriptions[address] = {};
