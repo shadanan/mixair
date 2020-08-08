@@ -24,10 +24,9 @@ class FakeXAir implements XAir {
   connect() {}
   close() {}
 
-  async get(address: string): Promise<OscMessage> {
+  async get(address: string) {
     const message = this.cache[address];
     this.publish(message);
-    return message;
   }
 
   async patch(message: OscMessage): Promise<OscMessage> {

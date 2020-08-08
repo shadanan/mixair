@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useXAirContext } from "./XAirContext";
+import React from "react";
+import useXAirAddress from "./useXAirAddress";
 import XAirMultiMeter from "./XAirMultiMeter";
 
 const METER_ADDRESS = "/meters/2";
@@ -13,20 +13,7 @@ export default function XAirMeterInMono({
   channelId,
   adUsbAddress,
 }: MeterInMonoProps) {
-  const [isUsb, setIsUsb] = useState(false);
-  const xair = useXAirContext();
-
-  useEffect(() => {
-    const adUsbName = xair.subscribe(adUsbAddress, (message) => {
-      setIsUsb(message.arguments[0] === 1);
-    });
-
-    xair.get(adUsbAddress);
-
-    return () => {
-      xair.unsubscribe(adUsbAddress, adUsbName);
-    };
-  }, [xair, channelId, adUsbAddress]);
+  const isUsb = useXAirAddress<number>(adUsbAddress, 0)[0];
 
   return (
     <XAirMultiMeter

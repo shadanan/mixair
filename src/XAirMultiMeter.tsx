@@ -1,7 +1,7 @@
 import { makeStyles, Typography } from "@material-ui/core";
 import React from "react";
 import LevelIndicator from "./LevelIndicator";
-import useXAirMeter from "./XAirMeterHook";
+import useXAirAddress from "./useXAirAddress";
 
 const MARKS: [number, string][] = [
   [0, "-∞"],
@@ -68,7 +68,7 @@ type XAirLevelIndicatorProps = {
 };
 
 function XAirLevelIndicator({ address, index }: XAirLevelIndicatorProps) {
-  const meters = useXAirMeter(address);
+  const meters = useXAirAddress<number[]>(address, [])[0];
   const level = normalize(meters[index]);
   return <LevelIndicator level={level} />;
 }

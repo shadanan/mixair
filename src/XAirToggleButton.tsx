@@ -1,8 +1,8 @@
 import { makeStyles } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
 import ToggleButton from "@material-ui/lab/ToggleButton";
-import React, { useEffect, useState } from "react";
-import { useXAirContext } from "./XAirContext";
+import React from "react";
+import useXAirAddress from "./useXAirAddress";
 
 type StyleProps = {
   color: string;
@@ -33,27 +33,8 @@ export default function XAirToggleButton({
   invert = false,
 }: ToggleButtonProps) {
   const classes = useStyles({ color });
-  const [toggled, setToggled] = useState(0);
-  const xair = useXAirContext();
+  const [toggled, setToggled] = useXAirAddress<number>(address, 0);
   const [ON, OFF] = invert ? [0, 1] : [1, 0];
-
-  async function updateToggled(toggled: number) {
-    xair.patch({
-      address: address,
-      arguments: [toggled],
-    });
-  }
-
-  useEffect(() => {
-    const name = xair.subscribe(address, (message) => {
-      setToggled(message.arguments[0] as number);
-    });
-    xair.get(address);
-
-    return () => {
-      xair.unsubscribe(address, name);
-    };
-  }, [xair, address]);
 
   return (
     <ToggleButton
@@ -65,7 +46,7 @@ export default function XAirToggleButton({
       value="check"
       selected={toggled === ON}
       onChange={() => {
-        updateToggled(toggled === ON ? OFF : ON);
+        setToggled(toggled === ON ? OFF : ON);
       }}
     >
       {children}

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Fader from "./Fader";
-import { useXAirContext } from "./XAirContext";
+import useXAirAddress from "./useXAirAddress";
 
 function toUnitInterval(level: string): number {
   if (level === "-∞") {
@@ -22,31 +22,12 @@ type FaderProps = {
 };
 
 export default function XAirFader({ address }: FaderProps) {
-  const [level, setLevel] = useState(0);
-  const xair = useXAirContext();
-
-  function updateLevel(level: number) {
-    xair.patch({
-      address: address,
-      arguments: [level],
-    });
-  }
-
-  useEffect(() => {
-    const name = xair.subscribe(address, (message) => {
-      setLevel(message.arguments[0] as number);
-    });
-    xair.get(address);
-
-    return () => {
-      xair.unsubscribe(address, name);
-    };
-  }, [xair, address]);
+  const [level, setLevel] = useXAirAddress<number>(address, 0);
 
   return (
     <Fader
       level={level}
-      setLevel={updateLevel}
+      setLevel={setLevel}
       labeledLevels={["-∞", "-50", "-30", "-20", "-10", "-5", "0", "5", "10"]}
       toLevel={toLevel}
       toUnitInterval={toUnitInterval}

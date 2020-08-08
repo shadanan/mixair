@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ChipLabel from "./ChipLabel";
-import { useXAirContext } from "./XAirContext";
+import useXAirAddress from "./useXAirAddress";
 
 type LabelProps = {
   configAddress: string;
@@ -9,33 +9,8 @@ type LabelProps = {
 };
 
 export default function XAirLabel({ configAddress, prefix, alt }: LabelProps) {
-  const labelAddress = `${configAddress}/name`;
-  const colorAddress = `${configAddress}/color`;
-  const [label, setLabel] = useState("");
-  const [color, setColor] = useState(0);
-  const xair = useXAirContext();
-
-  useEffect(() => {
-    const name = xair.subscribe(labelAddress, (message) => {
-      setLabel(message.arguments[0] as string);
-    });
-    xair.get(labelAddress);
-
-    return () => {
-      xair.unsubscribe(labelAddress, name);
-    };
-  }, [xair, labelAddress]);
-
-  useEffect(() => {
-    const name = xair.subscribe(colorAddress, (message) => {
-      setColor(message.arguments[0] as number);
-    });
-    xair.get(colorAddress);
-
-    return () => {
-      xair.unsubscribe(colorAddress, name);
-    };
-  }, [xair, colorAddress]);
+  const label = useXAirAddress<string>(`${configAddress}/name`, "")[0];
+  const color = useXAirAddress<number>(`${configAddress}/color`, 0)[0];
 
   return (
     <ChipLabel

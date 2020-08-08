@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useXAirContext } from "./XAirContext";
+import React from "react";
+import useXAirAddress from "./useXAirAddress";
 import XAirMultiMeter from "./XAirMultiMeter";
 
 const METER_ADDRESS = "/meters/2";
@@ -8,20 +8,7 @@ const AD_CHANNEL_IDS = [16, 17];
 const USB_CHANNEL_IDS = [34, 35];
 
 export default function XAirMeterInAux() {
-  const [isUsb, setIsUsb] = useState(false);
-  const xair = useXAirContext();
-
-  useEffect(() => {
-    const adUsbName = xair.subscribe(AD_USB_ADDRESS, (message) => {
-      setIsUsb(message.arguments[0] === 1);
-    });
-
-    xair.get(AD_USB_ADDRESS);
-
-    return () => {
-      xair.unsubscribe(AD_USB_ADDRESS, adUsbName);
-    };
-  }, [xair]);
+  const isUsb = useXAirAddress<number>(AD_USB_ADDRESS, 0)[0];
 
   return (
     <XAirMultiMeter

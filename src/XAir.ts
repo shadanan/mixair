@@ -47,15 +47,16 @@ export class XAir {
     console.log(`Unsubscribed from ${this.xair} notifications.`);
   }
 
-  async get(address: string): Promise<OscMessage> {
-    if (!(address in this.cache)) {
+  async get(address: string) {
+    if (!(address in this.cache) && !address.startsWith("/meters/")) {
       const resp = await fetch(`${this.baseUrl}${address}`);
       const message = (await resp.json()) as OscMessage;
       this.cache[address] = message;
     }
-    const message = this.cache[address];
-    this.publish(message);
-    return message;
+    if (address in this.cache) {
+      const message = this.cache[address];
+      this.publish(message);
+    }
   }
 
   async patch(message: OscMessage): Promise<OscMessage> {
