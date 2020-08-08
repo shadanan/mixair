@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { useAppBarContext } from "./TopAppBarContext";
 import XAirFader from "./XAirFader";
 import XAirLabel from "./XAirLabel";
-import XAirMeterOut from "./XAirMeterOut";
+import XAirMultiMeter from "./XAirMultiMeter";
 import XAirToggleButtonMute from "./XAirToggleButtonMute";
 import XAirToggleButtonSolo from "./XAirToggleButtonSolo";
 
@@ -64,10 +64,14 @@ export default function XAirChannelOut({
               <XAirToggleButtonSolo address={soloAddress} />
             </Grid>
             <Grid item className={classes.flex}>
-              <XAirMeterOut
-                address={"/meters/5"}
-                channelIds={meterIds}
-                label={channelName}
+              <XAirMultiMeter
+                meters={[
+                  {
+                    label: channelName,
+                    address: "/meters/5",
+                    indices: meterIds,
+                  },
+                ]}
               />
             </Grid>
             <Grid item>

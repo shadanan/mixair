@@ -4,10 +4,10 @@ import XAirMultiMeter from "./XAirMultiMeter";
 
 const METER_ADDRESS = "/meters/2";
 const AD_USB_ADDRESS = "/rtn/aux/preamp/rtnsw";
+const AD_CHANNEL_IDS = [16, 17];
+const USB_CHANNEL_IDS = [34, 35];
 
 export default function XAirMeterInAux() {
-  const adChannelIds = [16, 17];
-  const usbChannelIds = [34, 35];
   const [isUsb, setIsUsb] = useState(false);
   const xair = useXAirContext();
 
@@ -26,8 +26,8 @@ export default function XAirMeterInAux() {
   return (
     <XAirMultiMeter
       meters={[
-        { label: "A/D", address: METER_ADDRESS, indices: adChannelIds },
-        { label: "USB", address: METER_ADDRESS, indices: usbChannelIds },
+        { label: "A/D", address: METER_ADDRESS, indices: AD_CHANNEL_IDS },
+        { label: "USB", address: METER_ADDRESS, indices: USB_CHANNEL_IDS },
       ]}
       primary={isUsb ? 1 : 0}
     />

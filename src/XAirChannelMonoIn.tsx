@@ -60,7 +60,6 @@ export default function XAirChannelMonoIn({ channelId }: ChannelMonoInProps) {
             </Grid>
             <Grid item className={classes.flex}>
               <XAirMeterInMono
-                meterAddress={"/meters/2"}
                 channelId={channelId}
                 adUsbAddress={`/ch/${channelName}/preamp/rtnsw`}
               />

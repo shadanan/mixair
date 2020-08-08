@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useXAirContext } from "./XAirContext";
 import XAirMultiMeter from "./XAirMultiMeter";
 
+const METER_ADDRESS = "/meters/2";
+
 type MeterInMonoProps = {
-  meterAddress: string;
   channelId: number;
   adUsbAddress: string;
 };
 
 export default function XAirMeterInMono({
-  meterAddress,
   channelId,
   adUsbAddress,
 }: MeterInMonoProps) {
@@ -31,8 +31,8 @@ export default function XAirMeterInMono({
   return (
     <XAirMultiMeter
       meters={[
-        { label: "A/D", address: meterAddress, indices: [channelId] },
-        { label: "USB", address: meterAddress, indices: [channelId + 18] },
+        { label: "A/D", address: METER_ADDRESS, indices: [channelId] },
+        { label: "USB", address: METER_ADDRESS, indices: [channelId + 18] },
       ]}
       primary={isUsb ? 1 : 0}
     />
