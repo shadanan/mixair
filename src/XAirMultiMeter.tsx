@@ -1,7 +1,7 @@
 import { makeStyles, Typography } from "@material-ui/core";
 import React from "react";
 import LevelIndicator from "./LevelIndicator";
-import useXAirAddress from "./useXAirAddress";
+import { useMetersContext } from "./XAirMetersContext";
 
 const MARKS: [number, string][] = [
   [0, "-∞"],
@@ -68,7 +68,7 @@ type XAirLevelIndicatorProps = {
 };
 
 function XAirLevelIndicator({ address, index }: XAirLevelIndicatorProps) {
-  const meters = useXAirAddress<number[]>(address, [])[0];
+  const meters = useMetersContext()[address];
   const level = normalize(meters[index]);
   return <LevelIndicator level={level} />;
 }
@@ -145,5 +145,7 @@ export default function XAirMultiMeter({ meters, primary }: MultiMeterProps) {
 }
 
 function normalize(level: number): number {
-  return Math.max(Math.min(((level + 18432) * 100) / 18432, 100), 0);
+  return Math.trunc(
+    Math.max(Math.min(((level + 18432) * 100) / 18432, 100), 0)
+  );
 }

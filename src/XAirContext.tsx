@@ -1,11 +1,7 @@
 import React, { ReactElement, useContext } from "react";
 import { XAir } from "./XAir";
 
-type XAirContextProps = XAir;
-
-export const XAirContext = React.createContext<XAirContextProps>(
-  {} as XAirContextProps
-);
+export const XAirContext = React.createContext<XAir>({} as XAir);
 
 export function useXAirContext() {
   return useContext(XAirContext);
