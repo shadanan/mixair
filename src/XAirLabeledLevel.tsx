@@ -1,7 +1,5 @@
 import { Grid, makeStyles } from "@material-ui/core";
-import React from "react";
-import XAirFader from "./XAirFader";
-import XAirLabel from "./XAirLabel";
+import React, { ReactElement } from "react";
 
 const useStyles = makeStyles((theme) => ({
   flex: {
@@ -23,26 +21,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type LabeledFaderProps = {
-  faderAddress: string;
-  configAddress: string;
-  altLabelName: string;
+type LabeledLevelProps = {
+  label: ReactElement;
+  fader: ReactElement;
 };
 
-export default function XAirLabeledFader({
-  faderAddress,
-  configAddress,
-  altLabelName,
-}: LabeledFaderProps) {
+export default function XAirLabeledLevel({ label, fader }: LabeledLevelProps) {
   const classes = useStyles();
 
   return (
     <Grid container alignItems="center" spacing={2}>
       <Grid item className={classes.label} xs={2}>
-        <XAirLabel configAddress={configAddress} alt={altLabelName} />
+        {label}
       </Grid>
       <Grid item className={classes.flex}>
-        <XAirFader address={faderAddress} />
+        {fader}
       </Grid>
     </Grid>
   );

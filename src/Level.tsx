@@ -39,7 +39,7 @@ function ValueLabelComponent({ open, value, children }: ValueLabelProps) {
   );
 }
 
-type FaderProps = {
+type LevelProps = {
   level: number;
   setLevel: (level: number) => void;
   labeledLevels: string[];
@@ -47,13 +47,13 @@ type FaderProps = {
   toLevel: (unitInterval: number, fractionDigits: number) => string;
 };
 
-export default function Fader({
+export default function Level({
   level,
   setLevel,
   labeledLevels,
   toUnitInterval,
   toLevel,
-}: FaderProps) {
+}: LevelProps) {
   const classes = useStyles();
   const [levelText, setLevelText] = useState<string | null>(null);
 

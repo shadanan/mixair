@@ -5,10 +5,10 @@ import {
   ThemeProvider,
 } from "@material-ui/core";
 import React, { ReactNode, useState } from "react";
-import Fader from "./Fader";
+import Level from "./Level";
 
 export default {
-  title: "Fader",
+  title: "Level",
   decorators: [
     (storyFn: () => ReactNode) => (
       <ThemeProvider theme={theme}>
@@ -46,12 +46,12 @@ function unitIntervalToLevel(
 export function DbMinusInfinityTo10() {
   const [level, setLevel] = useState(0.5);
   return (
-    <Fader
+    <Level
       level={level}
       setLevel={setLevel}
       labeledLevels={["-∞", "-50", "-30", "-20", "-10", "-5", "0", "5", "10"]}
       toUnitInterval={levelToUnitInterval}
       toLevel={unitIntervalToLevel}
-    ></Fader>
+    ></Level>
   );
 }

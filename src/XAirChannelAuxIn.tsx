@@ -5,7 +5,8 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import React, { useEffect, useState } from "react";
 import { useAppBarContext } from "./TopAppBarContext";
 import XAirLabel from "./XAirLabel";
-import XAirLabeledFader from "./XAirLabeledFader";
+import XAirLabeledLevelFader from "./XAirLabeledLevelFader";
+import XAirLabeledLevelTrim from "./XAirLabeledLevelTrim";
 import XAirMeterInAux from "./XAirMeterInAux";
 import XAirToggleButtonAdUsb from "./XAirToggleButtonAdUsb";
 import XAirToggleButtonMute from "./XAirToggleButtonMute";
@@ -69,16 +70,17 @@ export default function XAirChannelAuxIn() {
           <Grid item className={classes.channelConfig}>
             <Grid container direction="column" spacing={1}>
               <Grid item>
-                <XAirLabeledFader
+                <XAirLabeledLevelFader
                   faderAddress="/rtn/aux/mix/fader"
                   configAddress="/lr/config"
                   altLabelName="LR"
                 />
+                <XAirLabeledLevelTrim />
                 {Array.from({ length: 6 }, (_, i) => {
                   const busId = i + 1;
                   const busName = String(busId).padStart(2, "0");
                   return (
-                    <XAirLabeledFader
+                    <XAirLabeledLevelFader
                       key={busId}
                       faderAddress={`/rtn/aux/mix/${busName}/level`}
                       configAddress={`/bus/${busId}/config`}

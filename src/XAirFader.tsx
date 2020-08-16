@@ -1,5 +1,5 @@
 import React from "react";
-import Fader from "./Fader";
+import Level from "./Level";
 import useXAirAddress from "./useXAirAddress";
 
 function toUnitInterval(level: string): number {
@@ -25,7 +25,7 @@ export default function XAirFader({ address }: FaderProps) {
   const [level, setLevel] = useXAirAddress<number>(address, 0);
 
   return (
-    <Fader
+    <Level
       level={level}
       setLevel={setLevel}
       labeledLevels={["-∞", "-50", "-30", "-20", "-10", "-5", "0", "5", "10"]}

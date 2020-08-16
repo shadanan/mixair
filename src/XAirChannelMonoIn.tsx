@@ -4,9 +4,9 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import React, { useEffect, useState } from "react";
 import { useAppBarContext } from "./TopAppBarContext";
-import XAirGain from "./XAirGain";
 import XAirLabel from "./XAirLabel";
-import XAirLabeledFader from "./XAirLabeledFader";
+import XAirLabeledLevelFader from "./XAirLabeledLevelFader";
+import XAirLabeledLevelGain from "./XAirLabeledLevelGain";
 import XAirMeterInMono from "./XAirMeterInMono";
 import XAirToggleButtonAdUsb from "./XAirToggleButtonAdUsb";
 import XAirToggleButtonMute from "./XAirToggleButtonMute";
@@ -84,17 +84,19 @@ export default function XAirChannelMonoIn({ channelId }: ChannelMonoInProps) {
           <Grid item className={classes.channelConfig}>
             <Grid container direction="column" spacing={1}>
               <Grid item>
-                <XAirLabeledFader
+                <XAirLabeledLevelFader
                   faderAddress={`/ch/${channelName}/mix/fader`}
                   configAddress="/lr/config"
                   altLabelName="LR"
                 />
-                <XAirGain gainAddress={`/headamp/${channelName}/gain`} />
+                <XAirLabeledLevelGain
+                  address={`/headamp/${channelName}/gain`}
+                />
                 {Array.from({ length: 6 }, (_, i) => {
                   const busId = i + 1;
                   const busName = String(busId).padStart(2, "0");
                   return (
-                    <XAirLabeledFader
+                    <XAirLabeledLevelFader
                       key={busId}
                       faderAddress={`/ch/${channelName}/mix/${busName}/level`}
                       configAddress={`/bus/${busId}/config`}
