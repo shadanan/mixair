@@ -6,8 +6,9 @@ import React, { useEffect, useState } from "react";
 import { useAppBarContext } from "./TopAppBarContext";
 import XAirLabel from "./XAirLabel";
 import XAirLabeledLevelFader from "./XAirLabeledLevelFader";
+import XAirLabeledLevelGain from "./XAirLabeledLevelGain";
 import XAirLabeledLevelTrim from "./XAirLabeledLevelTrim";
-import XAirMeterInAux from "./XAirMeterInAux";
+import XAirMeterIn from "./XAirMeterIn";
 import XAirToggleButtonAdUsb from "./XAirToggleButtonAdUsb";
 import XAirToggleButtonMute from "./XAirToggleButtonMute";
 import XAirToggleButtonSolo from "./XAirToggleButtonSolo";
@@ -24,7 +25,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function XAirChannelAuxIn() {
+type ChannelInProps = {
+  channelName: string;
+  channelAddress: string;
+  labelPrefix: string;
+  adChannelIds: number[];
+  usbChannelIds: number[];
+  gainLevelStop: number;
+  gainLevelStep: number;
+};
+
+export default function XAirChannelIn({
+  channelName,
+  channelAddress,
+  labelPrefix,
+  adChannelIds,
+  usbChannelIds,
+  gainLevelStop,
+  gainLevelStep,
+}: ChannelInProps) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const { updateExpandables } = useAppBarContext();
@@ -39,21 +58,31 @@ export default function XAirChannelAuxIn() {
     <Paper className={classes.paper}>
       <Grid container direction="column" alignItems="stretch" spacing={1}>
         <Grid item>
-          <XAirLabel prefix="Aux" configAddress="/rtn/aux/config" />
+          <XAirLabel
+            configAddress={`${channelAddress}/config`}
+            prefix={labelPrefix}
+          />
         </Grid>
         <Grid item>
           <Grid container direction="row" alignItems="center" spacing={1}>
             <Grid item>
-              <XAirToggleButtonMute address="/rtn/aux/mix/on" />
+              <XAirToggleButtonMute address={`${channelAddress}/mix/on`} />
             </Grid>
             <Grid item>
-              <XAirToggleButtonSolo address="/-stat/solosw/17" />
+              <XAirToggleButtonSolo address={`/-stat/solosw/${channelName}`} />
             </Grid>
             <Grid item className={classes.flex}>
-              <XAirMeterInAux />
+              <XAirMeterIn
+                adChannelIds={adChannelIds}
+                usbChannelIds={usbChannelIds}
+                adUsbAddress={`${channelAddress}/preamp/rtnsw`}
+                meterAddress={"/meters/2"}
+              />
             </Grid>
             <Grid item>
-              <XAirToggleButtonAdUsb address="/rtn/aux/preamp/rtnsw" />
+              <XAirToggleButtonAdUsb
+                address={`${channelAddress}/preamp/rtnsw`}
+              />
             </Grid>
             <Grid item>
               <ToggleButton
@@ -71,18 +100,25 @@ export default function XAirChannelAuxIn() {
             <Grid container direction="column" spacing={1}>
               <Grid item>
                 <XAirLabeledLevelFader
-                  faderAddress="/rtn/aux/mix/fader"
+                  faderAddress={`${channelAddress}/mix/fader`}
                   configAddress="/lr/config"
                   altLabelName="LR"
                 />
-                <XAirLabeledLevelTrim />
+                <XAirLabeledLevelGain
+                  address={`/headamp/${channelName}/gain`}
+                  levelStop={gainLevelStop}
+                  levelStep={gainLevelStep}
+                />
+                <XAirLabeledLevelTrim
+                  address={`${channelAddress}/preamp/rtntrim`}
+                />
                 {Array.from({ length: 6 }, (_, i) => {
                   const busId = i + 1;
                   const busName = String(busId).padStart(2, "0");
                   return (
                     <XAirLabeledLevelFader
                       key={busId}
-                      faderAddress={`/rtn/aux/mix/${busName}/level`}
+                      faderAddress={`${channelAddress}/mix/${busName}/level`}
                       configAddress={`/bus/${busId}/config`}
                       altLabelName={`Bus ${busId}`}
                     />

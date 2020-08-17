@@ -1,38 +1,24 @@
 import React from "react";
-import ChipLabel from "./ChipLabel";
-import Level from "./Level";
-import useXAirAddress from "./useXAirAddress";
-import XAirLabeledLevel from "./XAirLabeledLevel";
+import XAirLabeledLevelLinear from "./XAirLabeledLevelLinear";
 
-function toUnitInterval(level: string): number {
-  return (parseFloat(level) + 12) / 72;
-}
-
-function toLevel(unitInterval: number, fractionDigits: number): string {
-  return (72 * unitInterval - 12).toFixed(fractionDigits);
-}
-
-type LabeledFaderGainProps = {
+type LabeledLevelGainProps = {
   address: string;
+  levelStop: number;
+  levelStep: number;
 };
 
 export default function XAirLabeledLevelGain({
   address,
-}: LabeledFaderGainProps) {
-  const [level, setLevel] = useXAirAddress<number>(address, 0);
-
+  levelStop,
+  levelStep,
+}: LabeledLevelGainProps) {
   return (
-    <XAirLabeledLevel
-      label={<ChipLabel label="Gain" color={0} />}
-      fader={
-        <Level
-          level={level}
-          setLevel={setLevel}
-          labeledLevels={["-12", "0", "12", "24", "36", "48", "60"]}
-          toLevel={toLevel}
-          toUnitInterval={toUnitInterval}
-        />
-      }
+    <XAirLabeledLevelLinear
+      address={address}
+      label="A/D Gain"
+      levelStart={-12}
+      levelStop={levelStop}
+      levelStep={levelStep}
     />
   );
 }

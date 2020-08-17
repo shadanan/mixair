@@ -1,8 +1,8 @@
 import { Grid, makeStyles } from "@material-ui/core";
 import React from "react";
 import { XAir } from "./XAir";
-import XAirChannelAuxIn from "./XAirChannelAuxIn";
-import XAirChannelMonoIn from "./XAirChannelMonoIn";
+import XAirChannelInAux from "./XAirChannelInAux";
+import XAirChannelInMono from "./XAirChannelInMono";
 import XAirChannelOutBus from "./XAirChannelOutBus";
 import XAirChannelOutLr from "./XAirChannelOutLr";
 import { XAirContextProvider } from "./XAirContext";
@@ -37,11 +37,11 @@ export default function XAirMixer({ xair }: MixerProps) {
           ))}
           {Array.from({ length: 16 }, (_, i) => (
             <Grid item xs={12} md={6} lg={4} xl={3} key={i}>
-              <XAirChannelMonoIn channelId={i} />
+              <XAirChannelInMono channelId={i} />
             </Grid>
           ))}
           <Grid item xs={12} md={6} lg={4} xl={3}>
-            <XAirChannelAuxIn />
+            <XAirChannelInAux />
           </Grid>
         </Grid>
       </XAirMetersContextProvider>

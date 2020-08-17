@@ -1,34 +1,20 @@
 import React from "react";
-import ChipLabel from "./ChipLabel";
-import Level from "./Level";
-import useXAirAddress from "./useXAirAddress";
-import XAirLabeledLevel from "./XAirLabeledLevel";
+import XAirLabeledLevelLinear from "./XAirLabeledLevelLinear";
 
-const TRIM_ADDRESS = "/rtn/aux/preamp/rtntrim";
+type LabeledLevelTrimProps = {
+  address: string;
+};
 
-function toUnitInterval(level: string): number {
-  return (parseFloat(level) + 18) / 36;
-}
-
-function toLevel(unitInterval: number, fractionDigits: number): string {
-  return (36 * unitInterval - 18).toFixed(fractionDigits);
-}
-
-export default function XAirLabeledLevelTrim() {
-  const [level, setLevel] = useXAirAddress<number>(TRIM_ADDRESS, 0);
-
+export default function XAirLabeledLevelTrim({
+  address,
+}: LabeledLevelTrimProps) {
   return (
-    <XAirLabeledLevel
-      label={<ChipLabel label="Trim" color={0} />}
-      fader={
-        <Level
-          level={level}
-          setLevel={setLevel}
-          labeledLevels={["-18", "-12", "-6", "0", "6", "12", "18"]}
-          toLevel={toLevel}
-          toUnitInterval={toUnitInterval}
-        />
-      }
+    <XAirLabeledLevelLinear
+      address={address}
+      label="USB Trim"
+      levelStart={-18}
+      levelStop={18}
+      levelStep={6}
     />
   );
 }
