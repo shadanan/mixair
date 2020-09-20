@@ -3,6 +3,10 @@ export type OscMessage = {
   arguments: (number | string)[];
 };
 
+export function href() {
+  return window.location.href.replace(/^http/, "ws").replace(/\/$/, "");
+}
+
 export class XAir {
   xair: string;
   baseUrl: string;
@@ -22,8 +26,7 @@ export class XAir {
   }
 
   connect() {
-    const href = window.location.href.replace(/^http/, "ws");
-    const serverUrl = `${href}/ws/xairs/${this.xair}/addresses`;
+    const serverUrl = `${href()}/ws/xairs/${this.xair}/addresses`;
     console.log(`Connecting to ${serverUrl}...`);
     this.client = new WebSocket(serverUrl);
     this.client.onopen = () => {

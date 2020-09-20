@@ -1,3 +1,5 @@
+import { href } from "./XAir";
+
 export type XAirMessage = {
   xairs: string[];
 };
@@ -13,7 +15,7 @@ export class XAirDetector {
   }
 
   connect() {
-    const serverUrl = `ws://${window.location.host}/ws/xairs`;
+    const serverUrl = `${href()}/ws/xairs`;
     console.log(`Connecting to ${serverUrl}...`);
     this.client = new WebSocket(serverUrl);
     this.client.onopen = () => {
