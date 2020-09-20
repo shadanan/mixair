@@ -22,7 +22,8 @@ export class XAir {
   }
 
   connect() {
-    const serverUrl = `ws://${window.location.host}/ws/xairs/${this.xair}/addresses`;
+    const href = window.location.href.replace(/^http/, "ws");
+    const serverUrl = `${href}/ws/xairs/${this.xair}/addresses`;
     console.log(`Connecting to ${serverUrl}...`);
     this.client = new WebSocket(serverUrl);
     this.client.onopen = () => {
