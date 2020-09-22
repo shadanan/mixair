@@ -4,13 +4,21 @@ export type XAirMessage = {
   xairs: string[];
 };
 
-export class XAirDetector {
-  backoff = 100;
-  client!: WebSocket;
-  callback: (message: XAirMessage) => void;
+const RETRY_INTERVALS = [0, 1000, 2000, 5000, 10000];
 
-  constructor(callback: (message: XAirMessage) => void) {
-    this.callback = callback;
+export class XAirDetector {
+  retries = 0;
+  backoff = 0;
+  client!: WebSocket;
+  setMixers: (xairs: string[]) => void;
+  setBackoff: (backoff: number | null) => void;
+
+  constructor(
+    setMixers: (xairs: string[]) => void,
+    setBackoff: (backoff: number | null) => void
+  ) {
+    this.setMixers = setMixers;
+    this.setBackoff = setBackoff;
     this.connect();
   }
 
@@ -20,17 +28,29 @@ export class XAirDetector {
     this.client = new WebSocket(serverUrl);
     this.client.onopen = () => {
       console.log(`Subscribed to automatic device detection notifications.`);
-      this.backoff = 250;
+      this.retries = 0;
+      this.setBackoff(null);
     };
     this.client.onmessage = (resp) => {
       const message = JSON.parse(resp.data) as XAirMessage;
       this.publish(message);
     };
     this.client.onclose = (resp) => {
-      console.log(`Reconnecting in ${this.backoff / 1000} seconds...`);
-      setTimeout(this.connect.bind(this), this.backoff);
-      this.backoff = Math.min(this.backoff * 2, 10000);
+      this.setMixers([]);
+      this.backoff = RETRY_INTERVALS[this.retries];
+      this.reconnect();
+      this.retries = Math.min(this.retries + 1, RETRY_INTERVALS.length - 1);
     };
+  }
+
+  reconnect() {
+    this.setBackoff(this.backoff);
+    if (this.backoff <= 0) {
+      this.connect();
+    } else {
+      this.backoff = this.backoff - 500;
+      setTimeout(this.reconnect.bind(this), 500);
+    }
   }
 
   close() {
@@ -40,6 +60,6 @@ export class XAirDetector {
   }
 
   publish(message: XAirMessage) {
-    this.callback(message);
+    this.setMixers(message.xairs);
   }
 }

@@ -6,6 +6,7 @@ import {
   Select,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import ReconnectSnackbar from "./ReconnectSnackbar";
 import { useAppBarContext } from "./TopAppBarContext";
 import { XAirDetector } from "./XAirDetector";
 
@@ -20,15 +21,14 @@ export default function XAirMixerSelect() {
   const classes = useStyles();
   const { mixer, setMixer } = useAppBarContext();
   const [mixers, setMixers] = useState<string[]>([]);
+  const [backoff, setBackoff] = useState<number | null>(null);
 
   useEffect(() => {
-    const detector = new XAirDetector((message) => {
-      setMixers(message.xairs);
-    });
+    const detector = new XAirDetector(setMixers, setBackoff);
     return () => {
       detector.close();
     };
-  }, [setMixer]);
+  }, [setMixers, setBackoff]);
 
   useEffect(() => {
     if (mixers.length === 0) {
@@ -39,29 +39,32 @@ export default function XAirMixerSelect() {
   }, [mixer, mixers, setMixer]);
 
   return (
-    <FormControl className={classes.formControl}>
-      <InputLabel shrink htmlFor="mixer-select">
-        Mixer
-      </InputLabel>
-      <Select
-        id="mixer-select"
-        labelId="mixer-select-label"
-        displayEmpty
-        value={mixers.includes(mixer) ? mixer : ""}
-        onChange={(event) => setMixer(event.target.value as string)}
-      >
-        {mixers.length === 0 ? (
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-        ) : (
-          mixers.map((mixer) => (
-            <MenuItem key={mixer} value={mixer}>
-              {mixer}
+    <>
+      <FormControl className={classes.formControl}>
+        <InputLabel shrink htmlFor="mixer-select">
+          Mixer
+        </InputLabel>
+        <Select
+          id="mixer-select"
+          labelId="mixer-select-label"
+          displayEmpty
+          value={mixers.includes(mixer) ? mixer : ""}
+          onChange={(event) => setMixer(event.target.value as string)}
+        >
+          {mixers.length === 0 ? (
+            <MenuItem value="">
+              <em>None</em>
             </MenuItem>
-          ))
-        )}
-      </Select>
-    </FormControl>
+          ) : (
+            mixers.map((mixer) => (
+              <MenuItem key={mixer} value={mixer}>
+                {mixer}
+              </MenuItem>
+            ))
+          )}
+        </Select>
+      </FormControl>
+      <ReconnectSnackbar backoff={backoff} />
+    </>
   );
 }
